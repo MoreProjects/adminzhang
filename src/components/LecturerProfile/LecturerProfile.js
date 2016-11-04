@@ -45,20 +45,15 @@ const LecturerProfile = React.createClass({
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td className="field">用户昵称</td>
-                                            <td><a href="#">轻舞飞扬</a></td>
+                                            <td className="field">房间号</td>
+                                            <td><a href="#">112536</a></td>
                                         </tr>
                                         <tr>
-                                            <td className="field">用户等级</td>
-                                            <td>
-                                                <div className="progress">
-                                                    <div className="progress-bar">80%</div>
-                                                </div>
-                                                <span className="label label-success">LV1</span>
-                                            </td>
+                                            <td className="field">关注数</td>
+                                            <td><a href="#">45368</a></td>
                                         </tr>
                                         <tr>
-                                            <td className="field">我的财豆</td>
+                                            <td className="field">房间标题</td>
                                             <td>988 财豆<a href="javascript:;" className="btn btn-danger btn-block gocharge">去充值</a></td>
                                         </tr>
                                     </tbody>
