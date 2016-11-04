@@ -20,15 +20,15 @@ async function copy({ watch } = {}) {
   const ncp = Promise.promisify(require('ncp'));
 
   await Promise.all([
-    ncp('src/public', 'build/public'),
-    ncp('package.json', 'build/package.json'),
-    ncp('adaptor.js', 'build/public/adaptor.js'),
+    ncp('src/public', 'build'),
+    ncp('package.json', 'build/public/package.json'),
+    ncp('adaptor.js', 'build/adaptor.js'),
   ]);
 
   replace({
     regex: '"start".*',
     replacement: '"start": "node server.js"',
-    paths: ['build/package.json'],
+    paths: ['build/public/package.json'],
     recursive: false,
     silent: false,
   });

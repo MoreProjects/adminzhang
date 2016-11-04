@@ -1,149 +1,132 @@
 import http from './HttpClient';
 import util from '../core/Util';
-import { apiBaseUrl, isMobileClient } from './ApiConfig';
+import { apiBaseUrl, apiSpecialUrl, apiSandboxUrl, isMobileClient } from './ApiConfig';
 
 const urlMap = {
-    'getLuckyMoneyLimit': apiBaseUrl + 'GetLuckyMoneyLimit',
-    'packLuckyMoney': apiBaseUrl + 'PackLuckyMoney',
-    'unpackLuckyMoney': apiBaseUrl + 'UnpackLuckyMoney',
-    'grabLuckyMoney': apiBaseUrl + 'GrabLuckyMoney',
-    'getSentInfo': apiBaseUrl + 'GetSentInfo',
-    'getReceivedInfo': apiBaseUrl + 'GetReceivedInfo',
-    'getLuckyMoneyInfo': apiBaseUrl + 'GetLuckyMoneyInfo',
-    'getReceivedUserDetail': apiBaseUrl + 'GetReceivedUserDetail',
-    'leaveLuckyMemo': apiBaseUrl + 'LeaveLuckyMemo',
+    'gzReceive': apiSpecialUrl + '/gzReceive',
+    'gzErrorFeed': apiBaseUrl + '/gzErrorFeed',
+    'gzDoConfirm': apiBaseUrl + '/gzDoConfirm',
+    'gzHistory': apiBaseUrl + '/gzHistory',
+    'gzTypeMonth': apiBaseUrl + '/gzTypeMonth',
+    'gzDetail': apiBaseUrl + '/gzDetail',
+    'gzGrayControl': apiSandboxUrl + '/grayControl',
+    'gzConfirm': apiBaseUrl + '/gzConfirm'
 };
 
 const ApiService = {
-    getLuckyMoneyLimit(requestConfig, callback) {
-        const url = urlMap.getLuckyMoneyLimit;
-
-        return http.get(url, requestConfig.params).then(response => {
-            return callback(response);
-        });
-    },
-
-    packLuckyMoney(requestConfig, callback) {
-        const url = urlMap.packLuckyMoney;
-        // TODO: delete '!' symbol
-        if (isMobileClient) {
-            return http.get(url, util.toJson(requestConfig.params)).then(response => {
-                return callback(response);
-            });
-        }
-
-        return http.post(url, requestConfig.params).then(response => {
-            return callback(response);
-        });
-    },
-    //拆红包
-    unpackLuckyMoney(requestConfig, callback) {
-        const url = urlMap.unpackLuckyMoney;
-        // TODO: delete '!' symbol
-        if (isMobileClient) {
-            return http.get(url, util.toJson(requestConfig.params)).then(response => {
-                return callback(response);
-            });
-        }
-
-        return http.post(url, requestConfig.params).then(response => {
-            return callback(response);
-        });
-    },
-    //抢红包
-    grabLuckyMoney(requestConfig, callback) {
-        const url = urlMap.grabLuckyMoney;
-        // TODO: delete '!' symbol
-        if (isMobileClient) {
-            return http.get(url, util.toJson(requestConfig.params)).then(response => {
-                return callback(response);
-            });
-        }
-
-        return http.post(url, requestConfig.params).then(response => {
-            return callback(response);
-        });
-    },
-    //查询我发出的红包
-    getSentInfo(requestConfig, callback) {
-        const url = urlMap.getSentInfo;
-        // TODO: delete '!' symbol
-        if (isMobileClient) {
-            return http.get(url, util.toJson(requestConfig.params)).then(response => {
-                return callback(response);
-            });
-        }
-
-        return http.post(url, requestConfig.params).then(response => {
-            return callback(response);
-        });
-    },
-    //查询我收到的红包
-    getReceivedInfo(requestConfig, callback) {
-        const url = urlMap.getReceivedInfo;
-        // TODO: delete '!' symbol when build
-        if (isMobileClient) {
-            return http.get(url, util.toJson(requestConfig.params)).then(response => {
-                return callback(response);
-            });
-        }
-
-        return http.post(url, requestConfig.params).then(response => {
-            return callback(response);
-        });
-    },
-    //查询红包详情
-    getLuckyMoneyInfo(requestConfig, callback) {
-        const url = urlMap.getLuckyMoneyInfo;
-        // TODO: delete '!' symbol when build
-        if (isMobileClient) {
-            return http.get(url, util.toJson(requestConfig.params)).then(response => {
-                return callback(response);
-            });
-        }
-
-        return http.post(url, requestConfig.params).then(response => {
-            return callback(response);
-        });
-    },
-    //分页获取已抢到红包人员列表
-    getReceivedUserDetail(requestConfig, callback) {
-        const url = urlMap.getReceivedUserDetail;
-        // TODO: delete '!' symbol when build
-        if (isMobileClient) {
-            return http.get(url, util.toJson(requestConfig.params)).then(response => {
-                return callback(response);
-            });
-        }
-
-        return http.post(url, requestConfig.params).then(response => {
-            return callback(response);
-        });
-    },
-    //留言
-    leaveLuckyMemo(requestConfig, callback) {
-        const url = urlMap.leaveLuckyMemo;
-        // TODO: delete '!' symbol when build
-        if (isMobileClient) {
-            return http.get(url, util.toJson(requestConfig.params)).then(response => {
-                return callback(response);
-            });
-        }
+    /**
+     * [gzReceive 获取用户身份态]
+     * @param  {[object]}   requestConfig [请求参数]
+     * @param  {Function} callback      [请求完成，回调函数]
+     * @return {[...]}                 [回调函数返回值]
+     */
+    gzReceive(requestConfig, callback) {
+        const url = urlMap.gzReceive;
 
         return http.post(url, requestConfig.params).then(response => {
             return callback(response);
         });
     },
 
-    connectWebViewJavascriptBridge(callback) {
-        if (window.WebViewJavascriptBridge) {
-            callback(window.WebViewJavascriptBridge);
-        } else {
-            document.addEventListener('WebViewJavascriptBridgeReady', () => {
-                callback(window.WebViewJavascriptBridge);
-            }, false);
-        }
+    /**
+     * [gzErrorFeed 提交数据报错信息]
+     * @param  {[object]}   requestConfig [请求参数]
+     * @param  {Function} callback      [请求完成，回调函数]
+     * @return {[...]}                 [回调函数返回值]
+     */
+    gzErrorFeed(requestConfig, callback) {
+        const url = urlMap.gzErrorFeed;
+
+        return http.post(url, requestConfig.params).then(response => {
+            return callback(response);
+        });
     },
+
+    /**
+     * [gzDoConfirm 确认工数据准确]
+     * @param  {[object]}   requestConfig [请求参数]
+     * @param  {Function} callback      [请求完成，回调函数]
+     * @return {[...]}                 [回调函数返回值]
+     */
+    gzDoConfirm(requestConfig, callback) {
+        const url = urlMap.gzDoConfirm;
+
+        return http.post(url, requestConfig.params).then(response => {
+            return callback(response);
+        });
+    },
+
+    /**
+     * [gzHistory 历史数据]
+     * @param  {[object]}   requestConfig [请求参数]
+     * @param  {Function} callback      [请求完成，回调函数]
+     * @return {[...]}                 [回调函数返回值]
+     */
+    gzHistory(requestConfig, callback) {
+        const url = urlMap.gzHistory;
+
+        return http.post(url, requestConfig.params).then(response => {
+            return callback(response);
+        });
+    },
+
+    /**
+     * [gzTypeMonth 获取表单类型和时间]
+     * @param  {[object]}   requestConfig [请求参数]
+     * @param  {Function} callback      [请求完成，回调函数]
+     * @return {[...]}                 [回调函数返回值]
+     */
+    gzTypeMonth(requestConfig, callback) {
+        const url = urlMap.gzTypeMonth;
+
+        return http.post(url, requestConfig.params).then(response => {
+            return callback(response);
+        });
+    },
+
+    /**
+     * [gzDetail 获取表单详情]
+     * @param  {[object]}   requestConfig [请求参数]
+     * @param  {Function} callback      [请求完成，回调函数]
+     * @return {[...]}                 [回调函数返回值]
+     */
+    gzDetail(requestConfig, callback) {
+        const url = urlMap.gzDetail;
+
+        return http.post(url, requestConfig.params).then(response => {
+            return callback(response);
+        });
+    },
+
+
+    /**
+     * [gzGrayControl 获取表单详情]
+     * @param  {[object]}   requestConfig [请求参数]
+     * @param  {Function} callback      [请求完成，回调函数]
+     * @return {[...]}                 [回调函数返回值]
+     */
+    gzGrayControl(requestConfig, callback) {
+        const url = urlMap.gzGrayControl;
+
+        return http.post(url, requestConfig.params).then(response => {
+            return callback(response);
+        });
+    },
+
+
+    /**
+     * [gzConfirm 获取表单详情]
+     * @param  {[object]}   requestConfig [请求参数]
+     * @param  {Function} callback      [请求完成，回调函数]
+     * @return {[...]}                 [回调函数返回值]
+     */
+    gzConfirm(requestConfig, callback) {
+        const url = urlMap.gzConfirm;
+
+        return http.post(url, requestConfig.params).then(response => {
+            return callback(response);
+        });
+    }
 };
 
 export default ApiService;

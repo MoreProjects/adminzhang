@@ -1,5 +1,92 @@
 let uid = ['0', '0', '0'];
 const Util = {
+    /**
+     * 去掉数组中的重复元素，返回新数组
+     */
+    uniqueArray: function(source) {
+        if (!(source instanceof Array)) {
+            return [];
+        }
+
+        let result = [];
+        source && source.forEach(function(item, index) {
+            if (result.indexOf(item) === -1) {
+                result.push(item);
+            }
+        });
+
+        return result;
+    },
+
+    /**
+     * @public
+     * [getDeviceInfo 获取当前设备信息，包括设备类型和设备版本 ]
+     * @return {[device]} [包括设备类型和设备版本的对象] 
+     */
+    getDeviceInfo: function() {
+        let device = {
+                platform: '',
+                version: ''
+            },
+
+            ua = window.navigator.userAgent,
+
+            _android = [],
+            _ios = [];
+
+        if ((_android = ua.match(/(Android);?[\s\/]+([\d.]+)?/))) {
+            device.platform = 'android';
+            device.version = _android[2];
+        } else if ((_ios = ua.match(/(iPhone|iPod|iPad).*OS\s([\d_]+)/))) {
+            device.platform = 'ios';
+            device.version = _ios[2].replace(/_/g, '.');
+        } else {
+            device.platform = 'pc';
+        }
+
+        return device;
+    },
+
+    /**
+     * @public
+     * [getDpr 获取当前显示设备的dpr，依赖第三方工具库，如adaptor.js，
+     *         给html根节点添加data-dpr属性，默认为1 ]
+     * @return {[Number]} [返回dpr值]
+     */
+    getDpr() {
+        let htmlElement = window 
+            && window.document 
+            && window.document.getElementsByTagName
+            && window.document.getElementsByTagName('html');
+
+        htmlElement = htmlElement && htmlElement[0];
+
+        let dpr = htmlElement && htmlElement.getAttribute('data-dpr');
+
+        if (!dpr) {
+            dpr = '1';
+        }
+
+        dpr = parseInt(dpr);
+
+        return dpr;
+    },
+
+    /**
+     * [setTitle 设置当前view的标题]
+     * @param {[...]} title [...]
+     */
+    setTitle(title) {
+        FSOpen.navigation.setTitle({
+            title: title,
+            onSuccess: function(resp) {
+                log('Invokie success', resp)
+            },
+            onFail: function(resp) {
+                log('Invokie fail', resp)
+            }
+        });
+    },
 
     nextUid() {
         let index = uid.length;

@@ -31,6 +31,18 @@ const GLOBALS = {
   __DEV__: DEBUG,
 };
 
+
+// get production environment:fte fte2 www
+var args = process.argv;
+var envArg = args.find(function(arg) {
+    return arg.indexOf('--env') >= 0;   // --fsceshi
+});
+
+const ENV = (envArg && envArg.split('=')[1]) || 'www';
+const APP = 'salary';
+const BUILD = 'build';
+const PUBLICPATH = (ENV ==="empty" ? '' : `//${ENV}.fspage.com/h5/${APP}/${BUILD}/`);
+
 //
 // Common configuration chunk to be used for both
 // client-side (index.js) and server-side (server.js) bundles
@@ -38,7 +50,7 @@ const GLOBALS = {
 
 const config = {
   output: {
-    publicPath: DEBUG ? '/' : undefined,
+    publicPath: DEBUG ? '/' : PUBLICPATH,
     sourcePrefix: '  ',
   },
 
@@ -62,7 +74,7 @@ const config = {
   ],
 
   resolve: {
-    extensions: ['', '.webpack.js', '.web.js', '.js', '.jsx', '.json'],
+    extensions: ['', '.webpack.js', '.web.js', '.js', '.jsx', '.json']
   },
 
   module: {
@@ -91,7 +103,7 @@ const config = {
           'css-loader?' + (DEBUG ? 'sourceMap&' : 'minimize&') +
           'localIdentName=[name]_[local]_[hash:base64:3]',
           'postcss-loader',
-          'less-loader',
+          'less-loader?compress=false',
         ].join('!')),
       },
       {
@@ -109,10 +121,20 @@ const config = {
         test: /\.txt$/,
         loader: 'raw-loader',
       }, {
-        test: /\.(png|jpg|jpeg|gif|svg|woff|woff2)$/,
-        loader: 'url-loader?limit=20000',
+        /**
+         * BUG解决方案留存：
+         * 
+         * test: /\.(png|jpg|jpeg|gif|svg|woff|woff2)$/,
+         * 是无法匹配 .woff?v=1.3 
+         * 
+         * 所以改成
+         * test: /\.(png|jpg|jpeg|gif|svg|woff|woff2)/,
+         * 
+         */
+        test: /\.(png|jpg|jpeg|gif|svg|woff|woff2)/,
+        loader: 'url-loader?limit=200000',
       }, {
-        test: /\.(eot|ttf|wav|mp3)$/,
+        test: /\.(eot|ttf|wav|mp3)/,
         loader: 'file-loader',
       },
     ],
@@ -120,7 +142,6 @@ const config = {
 
   postcss: function plugins(bundler) {
     return [
-      require('postcss-px2rem')({ remUnit: 75 }),
       require('postcss-import')({ addDependencyTo: bundler }),
       require('precss')(),
       require('autoprefixer')({ browsers: AUTOPREFIXER_BROWSERS }),
@@ -128,16 +149,17 @@ const config = {
   },
 };
 
+
 //
 // Configuration for the client-side bundle (index.js)
 // -----------------------------------------------------------------------------
 
 const clientConfig = merge({}, config, {
   entry: {
-    main: ['./src/Index.js'],
+    search: ['./src/search.js'],
   },
   output: {
-    path: path.join(__dirname, '../build/public'),
+    path: path.join(__dirname, '../build'),
     filename: DEBUG ? '[name].js?[hash]' : '[name].[hash].js',
   },
 
@@ -146,32 +168,41 @@ const clientConfig = merge({}, config, {
   devtool: DEBUG ? 'cheap-module-eval-source-map' : false,
   plugins: [
     new ExtractTextPlugin(DEBUG ? '[name].css?[contenthash]' : '[name].[contenthash].css'),
+
     new HtmlWebpackPlugin({
-      title: '红包活动页',
-      template: 'entries/index.html',
+      title: '工资助手',
+      template: 'entries/search.html',
       inject: 'body',
       filename: 'index.html',
+      jsapi: '//www.fxiaoke.com/open/jsapi/2.0.0/fsapi.min.js',
       files: {
-        adaptiveScrtipt: ['adaptor.js'],
+        adaptiveScrtipt: [(DEBUG ? '' : PUBLICPATH) + 'adaptor.js'],
       },
-      chunks: ['main'],
+      chunks: ['search'],
     }),
+
     new webpack.DefinePlugin(GLOBALS),
-    new AssetsPlugin({
-      path: path.join(__dirname, '../build'),
-      filename: 'assets.js',
-      processOutput: x => `module.exports = ${JSON.stringify(x)};`,
-    }),
+
     ...(!DEBUG ? [
       new webpack.optimize.DedupePlugin(),
       new webpack.optimize.UglifyJsPlugin({
+        minimize: true,
         compress: {
           screw_ie8: true,
-          warnings: VERBOSE,
+          warnings: VERBOSE
         },
+        output: {
+          comments: false
+        }
       }),
       new webpack.optimize.AggressiveMergingPlugin(),
-    ] : []),
+    ] : [
+      new AssetsPlugin({
+        path: path.join(__dirname, '../build/public'),
+        filename: 'assets.js',
+        processOutput: x => `module.exports = ${JSON.stringify(x)};`,
+      }),
+    ]),
   ],
 });
 
@@ -182,7 +213,7 @@ const clientConfig = merge({}, config, {
 const serverConfig = merge({}, config, {
   entry: './src/server.js',
   output: {
-    path: './build',
+    path: './build/public',
     filename: 'server.js',
     libraryTarget: 'commonjs2',
   },
