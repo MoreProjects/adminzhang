@@ -5,6 +5,8 @@ import LecturerCommonHeader from '../LecturerCommonHeader';
 import LecturerSidebar from '../LecturerSidebar';
 import LecturerClassroomContent from '../LecturerClassroomContent';
 
+import ajax from '../../api/ApiService';
+
 const LecturerClassroomContainer = React.createClass({
     /**
 
@@ -19,6 +21,15 @@ const LecturerClassroomContainer = React.createClass({
                 <LecturerClassroomContent />
             </div>
         );
+    },
+
+    componentDidMount () {
+        ajax.liveInfo({
+            params: {}
+        }, (responseData) => {
+            console.log(responseData);
+        });
+
     }
 });
 

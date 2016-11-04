@@ -76,8 +76,8 @@ async function start() {
       .filter(compiler => compiler.options.target !== 'node')
       .map(compiler => webpackHotMiddleware(compiler));
 
-    const proxy = proxyMiddleware('/karazhan', {
-      target: 'http://120.132.6.128:8380', //'172.31.105.109:8001',
+    const proxy = proxyMiddleware('/karazhan/', {
+      target: 'http://120.132.6.218', //'172.31.105.109:8001',
       changeOrigin: true,
     });
 
