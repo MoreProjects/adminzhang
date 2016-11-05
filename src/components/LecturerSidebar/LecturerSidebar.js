@@ -43,7 +43,7 @@ const LecturerSidebar = React.createClass({
                             <li className="nav-profile">
                                 <a href="#" data-toggle="nav-profile">
                                     <div className="image">
-                                        <img src="assets/img/user.jpg" alt="" />
+                                        <img src="../assets/img/user.jpg" alt="" />
                                     </div>
                                     <div className="info">
                                         <b className="badge pull-right"></b>

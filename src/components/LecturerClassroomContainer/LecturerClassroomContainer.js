@@ -29,7 +29,6 @@ const LecturerClassroomContainer = React.createClass({
         }, (responseData) => {
             console.log(responseData);
         });
-
     }
 });
 
