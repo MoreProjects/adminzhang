@@ -7,13 +7,14 @@ const LecturerSideBarItem = React.createClass({
      * 
      * icon - Material Icon对应的名称
      * text - 菜单项对应的文案
+     * hash - 菜单链接
      * 
      * @returns
      */
     render () {
         return (
             <li className="">
-                <a href="javascript:;">
+                <a href={this.props.hash}>
                     <b className="badge pull-right"></b>
                     <i className="material-icons">{this.props.icon}</i>
                     <span>{this.props.text}</span>

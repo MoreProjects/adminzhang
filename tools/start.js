@@ -78,10 +78,7 @@ async function start() {
 
     const proxy = proxyMiddleware('/karazhan', {
       target: 'http://120.132.6.218', //'172.31.105.109:8001',
-      changeOrigin: false,
-      rewrite: function(req) { 
-        console.log(req);
-       }
+      changeOrigin: true
     });
 
     let handleServerBundleComplete = () => {

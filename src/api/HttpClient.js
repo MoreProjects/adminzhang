@@ -1,11 +1,18 @@
 import request from 'superagent';
 import noCache from 'superagent-no-cache';
+//import cookie from 'react-cookie';
+//cookie.save('Authorization', 'MTA2NDc1NDE2OSBlMjdjZTI4YWU3NmQ0ZjY2YTYyMjdkNjk0MWY4OWEwMjJhODAyZTEyM2QxODRjNTFhYWQ4MDc4ODYyYTA4ZWU5');
+//cookie.save('CZD-Client', 'Android_10647541611610');
+//cookie.save('cid', 'VW5rbm93bl8w');
+//cookie.save('sid', 'MTA2NDc1NDA5OCBmZTc1ZDRiN2E1NjQ0MTM2OGIyOWY4YmU3MzVkZWI2NTRmNmM3OGViMTdjNDQ4NGI4OWI4MGMyZDZkNzQ0Njgy');
+
 const HttpClient = {
 
     get: (path, requestConfig) => new Promise((resolve, reject) => {
         request
             .get(path)
             .use(noCache)
+            .withCredentials()
             .query(requestConfig)
             .set('Authorization', 'MTA2NDc1NDE2OSBlMjdjZTI4YWU3NmQ0ZjY2YTYyMjdkNjk0MWY4OWEwMjJhODAyZTEyM2QxODRjNTFhYWQ4MDc4ODYyYTA4ZWU5')
             .set('CZD-Client', 'Android_10647541611610')

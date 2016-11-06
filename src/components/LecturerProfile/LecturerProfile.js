@@ -19,7 +19,7 @@ const LecturerProfile = React.createClass({
                     <div className="profile-left">
                         {/* begin profile-image */}
                         <div className="profile-image">
-                            <img src="../assets/img/profile-cover.jpg" />
+                            <img src="http://e.hiphotos.baidu.com/baike/c0%3Dbaike92%2C5%2C5%2C92%2C30/sign=7f8a91998644ebf8797c6c6db890bc4f/32fa828ba61ea8d3e9f5dc9e960a304e241f5850.jpg" />
                             <i className="fa fa-user hide"></i>
                         </div>
                         {/* end profile-image */}

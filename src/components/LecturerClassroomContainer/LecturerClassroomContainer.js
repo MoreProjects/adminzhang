@@ -29,6 +29,12 @@ const LecturerClassroomContainer = React.createClass({
         }, (responseData) => {
             console.log(responseData);
         });
+
+        ajax.courses({
+            params: {}
+        }, (responseData) => {
+            console.log(responseData);
+        });
     }
 });
 

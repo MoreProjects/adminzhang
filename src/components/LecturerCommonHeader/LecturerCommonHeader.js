@@ -47,7 +47,7 @@ const LecturerCommonHeader = React.createClass({
                         </li>
                         <li className="dropdown navbar-user">
                             <a href="javascript:;" className="dropdown-toggle" data-toggle="dropdown">
-                                <img src="assets/img/user.jpg" alt="" /> 
+                                <img src="http://e.hiphotos.baidu.com/baike/c0%3Dbaike92%2C5%2C5%2C92%2C30/sign=7f8a91998644ebf8797c6c6db890bc4f/32fa828ba61ea8d3e9f5dc9e960a304e241f5850.jpg" alt="" /> 
                                 <span className="hidden-xs">Hi, Bill Gates</span>
                             </a>
                             <ul className="dropdown-menu animated fadeInLeft">

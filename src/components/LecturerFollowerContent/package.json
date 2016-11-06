@@ -1,0 +1,6 @@
+{
+    "name": "LecturerFollowerContent",
+    "version": "1.0.0",
+    "private": true,
+    "main": "./LecturerFollowerContent.js"
+}

@@ -5,6 +5,8 @@ import FastClick from 'fastclick';
 import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 import LecturerApp from './components/LecturerApp';
 import LecturerClassroomApp from './components/LecturerClassroomApp';
+import LecturerFollowerApp from './components/LecturerFollowerApp';
+import LecturerWordApp from './components/LecturerWordApp';
 
 
 
@@ -25,6 +27,8 @@ function bootstrap() {
             <Route path="/" onEnter={fetch}>
                 <IndexRoute component={LecturerApp} />
                 <Route path="/classroom" component={LecturerClassroomApp} />
+                <Route path="/follower" component={LecturerFollowerApp} />
+                <Route path="/word" component={LecturerWordApp} />
             </Route>
         </Router>), document.getElementById('react_container')
     );
