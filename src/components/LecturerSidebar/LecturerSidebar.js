@@ -7,7 +7,7 @@ const LecturerSidebar = React.createClass({
     SidebarMenu: [
         { text: '房间管理', icon: 'room', hash: '#classroom' },
         { text: '文字直播', icon: 'text_format', hash: '#word' },
-        { text: '视频管理', icon: 'settings_input_svideo', hash: '' },
+        { text: '视频管理', icon: 'settings_input_svideo', hash: '#video' },
         { text: '课程管理', icon: 'assignment', hash: '' },
         { text: '指标管理', icon: 'invert_colors', hash: '' },
         { text: '消息管理', icon: 'message', hash: '' },

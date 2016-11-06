@@ -30,6 +30,27 @@ const LecturerWordContent = React.createClass({
                             </div>
                         </div>
                     </div>
+
+                    <table className="table table-invoice">
+                        <tbody>
+                            <tr>
+                                <td>08:43</td>
+                                <td>中国股市将出现大规模的集体抛售现象，具体原因未知，小道消息，仅供参考。</td>
+                            </tr>
+                            <tr>
+                                <td>08:43</td>
+                                <td>中国股市将出现大规模的集体抛售现象，具体原因未知，小道消息，仅供参考。</td>
+                            </tr>
+                            <tr>
+                                <td>08:43</td>
+                                <td>中国股市将出现大规模的集体抛售现象，具体原因未知，小道消息，仅供参考。</td>
+                            </tr>
+                            <tr>
+                                <td>08:43</td>
+                                <td>中国股市将出现大规模的集体抛售现象，具体原因未知，小道消息，仅供参考。</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         );

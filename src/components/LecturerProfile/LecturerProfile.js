@@ -54,7 +54,7 @@ const LecturerProfile = React.createClass({
                                         </tr>
                                         <tr>
                                             <td className="field">房间标题</td>
-                                            <td>988 财豆<a href="javascript:;" className="btn btn-danger btn-block gocharge">去充值</a></td>
+                                            <td>炒股入行</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -64,10 +64,6 @@ const LecturerProfile = React.createClass({
                         {/* end profile-info */}
                     </div>
                     {/* end profile-right */}
-                </div>
-                {/* end profile-section */}
-                {/* begin profile-section */}
-                <div className="profile-section">
                 </div>
                 {/* end profile-section */}
             </div>

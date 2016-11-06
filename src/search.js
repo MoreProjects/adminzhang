@@ -7,6 +7,7 @@ import LecturerApp from './components/LecturerApp';
 import LecturerClassroomApp from './components/LecturerClassroomApp';
 import LecturerFollowerApp from './components/LecturerFollowerApp';
 import LecturerWordApp from './components/LecturerWordApp';
+import LecturerVideoApp from './components/LecturerVideoApp';
 
 
 
@@ -29,6 +30,7 @@ function bootstrap() {
                 <Route path="/classroom" component={LecturerClassroomApp} />
                 <Route path="/follower" component={LecturerFollowerApp} />
                 <Route path="/word" component={LecturerWordApp} />
+                <Route path="/video" component={LecturerVideoApp} />
             </Route>
         </Router>), document.getElementById('react_container')
     );
