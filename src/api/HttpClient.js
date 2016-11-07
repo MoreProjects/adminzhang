@@ -34,6 +34,53 @@ const HttpClient = {
         request
             .post(path)
             .use(noCache)
+            .withCredentials()
+            .send(requestConfig)
+            .set('Authorization', 'MTA2NDc1NDE2OSBlMjdjZTI4YWU3NmQ0ZjY2YTYyMjdkNjk0MWY4OWEwMjJhODAyZTEyM2QxODRjNTFhYWQ4MDc4ODYyYTA4ZWU5')
+            .set('CZD-Client', 'Android_10647541611610')
+            .accept('application/json')
+            .end((err, res) => {
+                if (err) {
+                    if (err.status === 404) {
+                        resolve(null);
+                    } else {
+                        reject(err);
+                    }
+                } else {
+                    resolve(res.body);
+                }
+            });
+    }),
+
+    postWithFile: (file, path, requestConfig) => new Promise((resolve, reject) => {
+        request
+            .post(path)
+            .use(noCache)
+            .withCredentials()
+            .send(requestConfig)
+            .attach(file.key, file.value)
+            .set('Authorization', 'MTA2NDc1NDE2OSBlMjdjZTI4YWU3NmQ0ZjY2YTYyMjdkNjk0MWY4OWEwMjJhODAyZTEyM2QxODRjNTFhYWQ4MDc4ODYyYTA4ZWU5')
+            .set('CZD-Client', 'Android_10647541611610')
+            .accept('application/json')
+            .end((err, res) => {
+                alert(err);
+                if (err) {
+                    if (err.status === 404) {
+                        resolve(null);
+                    } else {
+                        reject(err);
+                    }
+                } else {
+                    resolve(res.body);
+                }
+            });
+    }),
+
+    delete: (path, requestConfig) => new Promise((resolve, reject) => {
+        request
+            .post(path)
+            .use(noCache)
+            .withCredentials()
             .send(requestConfig)
             .set('Authorization', 'MTA2NDc1NDE2OSBlMjdjZTI4YWU3NmQ0ZjY2YTYyMjdkNjk0MWY4OWEwMjJhODAyZTEyM2QxODRjNTFhYWQ4MDc4ODYyYTA4ZWU5')
             .set('CZD-Client', 'Android_10647541611610')

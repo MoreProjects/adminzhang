@@ -8,7 +8,7 @@ import LecturerClassroomApp from './components/LecturerClassroomApp';
 import LecturerFollowerApp from './components/LecturerFollowerApp';
 import LecturerWordApp from './components/LecturerWordApp';
 import LecturerVideoApp from './components/LecturerVideoApp';
-
+import LecturerTargetApp from './components/LecturerTargetApp';
 
 
 function fetch() {
@@ -26,11 +26,12 @@ function bootstrap() {
     render(
         (<Router history={hashHistory}>
             <Route path="/" onEnter={fetch}>
-                <IndexRoute component={LecturerApp} />
+                <IndexRoute component={LecturerClassroomApp} />
                 <Route path="/classroom" component={LecturerClassroomApp} />
                 <Route path="/follower" component={LecturerFollowerApp} />
                 <Route path="/word" component={LecturerWordApp} />
                 <Route path="/video" component={LecturerVideoApp} />
+                <Route path="/target" component={LecturerTargetApp} />
             </Route>
         </Router>), document.getElementById('react_container')
     );

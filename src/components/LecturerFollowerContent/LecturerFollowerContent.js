@@ -3,8 +3,6 @@ import './LecturerFollowerContent.less';
 
 import ajax from '../../api/ApiService';
 
-console.log(ajax);
-
 const LecturerFollowerContent = React.createClass({
     /**
 
@@ -142,7 +140,7 @@ const LecturerFollowerContent = React.createClass({
         ajax.teacherFollower({
             params: {}
         }, (responseData) => {
-            console.log(responseData);
+           // console.log(responseData);
         });
     }
 });

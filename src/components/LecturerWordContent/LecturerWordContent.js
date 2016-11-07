@@ -4,13 +4,68 @@ import './LecturerWordContent.less';
 import ajax from '../../api/ApiService';
 import LecturerProfile from '../LecturerProfile';
 
+import moment from 'moment';
+
 const LecturerWordContent = React.createClass({
+     getInitialState() {
+        return {
+            textLiveList: []
+        };
+     },
+
+     /**
+      * 获取文字直播列表
+      */
+    getTextLiveList () {
+        const _self = this;
+
+        ajax.textLiveList('ctr34475696', {
+            params: {}
+        }, (responseData) => {
+            _self.setState({
+                textLiveList: responseData.list
+            });
+        });
+    },
+
+     /**
+      * 发送新观点/新文字
+      */
+    sendNewWord () {
+        const _self = this;
+
+        ajax.postText('ctr34475696', {
+            params: {
+                content: this.refs.wordContentNewWord.value
+            }
+        }, (responseData) => {
+            _self.refs.wordContentNewWord.value = '';
+            _self.getTextLiveList();
+        });
+    },
+
+    renderTextLiveList () {
+        let textLiveListEle = this.state.textLiveList.map((item, index) => {
+            let ctime = moment(item.create_time).format('HH:mm');
+            return (
+                <tr>
+                    <td>{ctime}</td>
+                    <td>{item.content}</td>
+                </tr>
+            );
+        });
+
+        return textLiveListEle.reverse();
+    },
+
     /**
 
      * 
      * @returns
      */
     render () {
+        let textLiveListEle = this.renderTextLiveList();
+
         return (
             <div id="content" className="l-wordcontent content">
                 <LecturerProfile />
@@ -21,34 +76,19 @@ const LecturerWordContent = React.createClass({
                     <div className="panel-body">
                         <div className="form-group">
                             <div className="col-md-12">
-                                <textarea className="form-control" placeholder="请输入想要发表的新观点" rows="5"></textarea>
+                                <textarea className="form-control" placeholder="请输入想要发表的新观点" rows="5" ref="wordContentNewWord"></textarea>
                             </div>
                         </div>
                         <div className="form-group">
                             <div className="col-md-12 m-t-10 text-right">
-                                <button type="submit" className="btn btn-sm btn-success">发送新观点</button>
+                                <button type="submit" className="btn btn-sm btn-success" onClick={this.sendNewWord} >发送新观点</button>
                             </div>
                         </div>
                     </div>
 
                     <table className="table table-invoice">
                         <tbody>
-                            <tr>
-                                <td>08:43</td>
-                                <td>中国股市将出现大规模的集体抛售现象，具体原因未知，小道消息，仅供参考。</td>
-                            </tr>
-                            <tr>
-                                <td>08:43</td>
-                                <td>中国股市将出现大规模的集体抛售现象，具体原因未知，小道消息，仅供参考。</td>
-                            </tr>
-                            <tr>
-                                <td>08:43</td>
-                                <td>中国股市将出现大规模的集体抛售现象，具体原因未知，小道消息，仅供参考。</td>
-                            </tr>
-                            <tr>
-                                <td>08:43</td>
-                                <td>中国股市将出现大规模的集体抛售现象，具体原因未知，小道消息，仅供参考。</td>
-                            </tr>
+                            {textLiveListEle}
                         </tbody>
                     </table>
                 </div>
@@ -57,11 +97,7 @@ const LecturerWordContent = React.createClass({
     },
 
     componentDidMount () {
-        ajax.teacherFollower({
-            params: {}
-        }, (responseData) => {
-            console.log(responseData);
-        });
+        this.getTextLiveList();
     }
 });
 

@@ -5,15 +5,15 @@ import LecturerSideBarItem from '../LecturerSideBarItem';
 
 const LecturerSidebar = React.createClass({
     SidebarMenu: [
-        { text: '房间管理', icon: 'room', hash: '#classroom' },
-        { text: '文字直播', icon: 'text_format', hash: '#word' },
-        { text: '视频管理', icon: 'settings_input_svideo', hash: '#video' },
+        { text: '房间管理', icon: 'room', hash: '/classroom' },
+        { text: '文字直播', icon: 'text_format', hash: '/word' },
+        { text: '视频管理', icon: 'settings_input_svideo', hash: '/video' },
         { text: '课程管理', icon: 'assignment', hash: '' },
-        { text: '指标管理', icon: 'invert_colors', hash: '' },
+        { text: '指标管理', icon: 'invert_colors', hash: '/target' },
         { text: '消息管理', icon: 'message', hash: '' },
-        { text: '师徒管理', icon: 'face', hash: '#follower' },
+        { text: '师徒管理', icon: 'face', hash: '/follower' },
         { text: '文章管理', icon: 'library_books', hash: '' },
-    ],
+    ],   
 
     renderSidebarMenu () {
         let menu = this.SidebarMenu.map((item, index) => {

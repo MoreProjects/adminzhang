@@ -1,7 +1,48 @@
 import React from 'react';
 import './LecturerProfile.less';
 
+import ajax from '../../api/ApiService';
+
 const LecturerProfile = React.createClass({
+    getInitialState() {
+        return {
+            // 用户名
+            userName: '',
+
+            // 房间ID
+            classroomID: '',
+
+            // 关注数
+            followerNum: '',
+
+            // 房间名
+            classroomName: '',
+
+            // 用户头像
+            userImage: ''
+        };
+    },
+
+    loadUserInfo () {
+        const _self = this;
+
+        ajax.liveInfo({
+            params: {}
+        }, (responseData) => {
+            //console.log(responseData);
+
+            if (responseData) {
+                 _self.setState({
+                    userName: responseData.owner_name,
+                    classroomID: responseData.id,
+                    classroomName: responseData.room_name,
+                    followerNum: responseData.following,
+                    userImage: responseData.portrait_url
+                });
+            }
+        });
+    },
+
     /**
      * this.props 解析
      * 
@@ -19,7 +60,7 @@ const LecturerProfile = React.createClass({
                     <div className="profile-left">
                         {/* begin profile-image */}
                         <div className="profile-image">
-                            <img src="http://e.hiphotos.baidu.com/baike/c0%3Dbaike92%2C5%2C5%2C92%2C30/sign=7f8a91998644ebf8797c6c6db890bc4f/32fa828ba61ea8d3e9f5dc9e960a304e241f5850.jpg" />
+                            <img src={this.state.userImage} />
                             <i className="fa fa-user hide"></i>
                         </div>
                         {/* end profile-image */}
@@ -39,22 +80,22 @@ const LecturerProfile = React.createClass({
                                         <tr>
                                             <th></th>
                                             <th>
-                                                <h4>Bill Gates <small>钻石会员</small></h4>
+                                                <h4>{this.state.userName}</h4>
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                             <td className="field">房间号</td>
-                                            <td><a href="#">112536</a></td>
+                                            <td><a href="#">{this.state.classroomID}</a></td>
                                         </tr>
                                         <tr>
                                             <td className="field">关注数</td>
-                                            <td><a href="#">45368</a></td>
+                                            <td><a href="#">{this.state.followerNum}</a></td>
                                         </tr>
                                         <tr>
                                             <td className="field">房间标题</td>
-                                            <td>炒股入行</td>
+                                            <td>{this.state.classroomName}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -69,6 +110,10 @@ const LecturerProfile = React.createClass({
             </div>
 			//{/* end profile-container */}
         );
+    },
+
+    componentDidMount () {
+        this.loadUserInfo();
     }
 });
 
