@@ -9,6 +9,7 @@ import LecturerFollowerApp from './components/LecturerFollowerApp';
 import LecturerWordApp from './components/LecturerWordApp';
 import LecturerVideoApp from './components/LecturerVideoApp';
 import LecturerTargetApp from './components/LecturerTargetApp';
+import LecturerMessageApp from './components/LecturerMessageApp';
 
 
 function fetch() {
@@ -32,6 +33,7 @@ function bootstrap() {
                 <Route path="/word" component={LecturerWordApp} />
                 <Route path="/video" component={LecturerVideoApp} />
                 <Route path="/target" component={LecturerTargetApp} />
+                <Route path="/message" component={LecturerMessageApp} />
             </Route>
         </Router>), document.getElementById('react_container')
     );
