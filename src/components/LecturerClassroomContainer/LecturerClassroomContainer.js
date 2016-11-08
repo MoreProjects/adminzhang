@@ -27,13 +27,13 @@ const LecturerClassroomContainer = React.createClass({
         ajax.liveInfo({
             params: {}
         }, (responseData) => {
-            console.log(responseData);
+            //console.log(responseData);
         });
 
         ajax.courses({
             params: {}
         }, (responseData) => {
-            console.log(responseData);
+            //console.log(responseData);
         });
     }
 });

@@ -38,7 +38,7 @@ const LecturerSideBarItem = React.createClass({
         let currHash = window.location.hash.substring(1, index);
 
         return (
-            <li className={ClassNames({'active': this.props.hash === currHash })} onClick={this.clickSideBarMenu}>
+            <li className={ClassNames({'active': this.props.hash === currHash || (currHash === '/' && this.props.hash === '/classroom') })} onClick={this.clickSideBarMenu}>
                 <a href="javascript:void(0);">
                     <b className="badge pull-right"></b>
                     <i className="material-icons">{this.props.icon}</i>

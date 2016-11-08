@@ -32,16 +32,15 @@ const GLOBALS = {
 };
 
 
-// get production environment:fte fte2 www
 var args = process.argv;
 var envArg = args.find(function(arg) {
-    return arg.indexOf('--env') >= 0;   // --fsceshi
+    return arg.indexOf('--env') >= 0; 
 });
 
 const ENV = (envArg && envArg.split('=')[1]) || 'www';
 const APP = 'salary';
 const BUILD = 'build';
-const PUBLICPATH = (ENV ==="empty" ? '' : `//${ENV}.fspage.com/h5/${APP}/${BUILD}/`);
+const PUBLICPATH = (ENV ==="empty" ? '' : '');
 
 //
 // Common configuration chunk to be used for both
@@ -170,11 +169,10 @@ const clientConfig = merge({}, config, {
     new ExtractTextPlugin(DEBUG ? '[name].css?[contenthash]' : '[name].[contenthash].css'),
 
     new HtmlWebpackPlugin({
-      title: '工资助手',
+      title: '讲师后台管理',
       template: 'entries/search.html',
       inject: 'body',
       filename: 'index.html',
-      jsapi: '//www.fxiaoke.com/open/jsapi/2.0.0/fsapi.min.js',
       files: {
         adaptiveScrtipt: [(DEBUG ? '' : PUBLICPATH) + 'adaptor.js'],
       },

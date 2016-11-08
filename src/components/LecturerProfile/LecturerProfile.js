@@ -23,26 +23,6 @@ const LecturerProfile = React.createClass({
         };
     },
 
-    loadUserInfo () {
-        const _self = this;
-
-        ajax.liveInfo({
-            params: {}
-        }, (responseData) => {
-            //console.log(responseData);
-
-            if (responseData) {
-                 _self.setState({
-                    userName: responseData.owner_name,
-                    classroomID: responseData.id,
-                    classroomName: responseData.room_name,
-                    followerNum: responseData.following,
-                    userImage: responseData.portrait_url
-                });
-            }
-        });
-    },
-
     /**
      * this.props 解析
      * 
@@ -113,7 +93,17 @@ const LecturerProfile = React.createClass({
     },
 
     componentDidMount () {
-        this.loadUserInfo();
+        const _self = this;
+
+        window.registerToGetUserInfo('l_profile', function () {
+            _self.setState({
+                userImage: window.globalUserInfo.userImage,
+                userName: window.globalUserInfo.userName,
+                classroomID: window.globalUserInfo.classroomID,
+                classroomName: window.globalUserInfo.classroomName,
+                followerNum: window.globalUserInfo.followerNum
+            });
+        });
     }
 });
 

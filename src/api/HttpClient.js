@@ -63,7 +63,6 @@ const HttpClient = {
             .set('CZD-Client', 'Android_10647541611610')
             .accept('application/json')
             .end((err, res) => {
-                alert(err);
                 if (err) {
                     if (err.status === 404) {
                         resolve(null);

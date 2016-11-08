@@ -2,6 +2,13 @@ import React from 'react';
 import './LecturerCommonHeader.less';
 
 const LecturerCommonHeader = React.createClass({
+    getInitialState() {
+        return {
+            userImage: '',
+            userName: ''
+        };
+     },
+
     /**
      * 
      * 
@@ -47,8 +54,8 @@ const LecturerCommonHeader = React.createClass({
                         </li>
                         <li className="dropdown navbar-user">
                             <a href="javascript:;" className="dropdown-toggle" data-toggle="dropdown">
-                                <img src="http://e.hiphotos.baidu.com/baike/c0%3Dbaike92%2C5%2C5%2C92%2C30/sign=7f8a91998644ebf8797c6c6db890bc4f/32fa828ba61ea8d3e9f5dc9e960a304e241f5850.jpg" alt="" /> 
-                                <span className="hidden-xs">Hi, Bill Gates</span>
+                                <img src={this.state.userImage} alt="" /> 
+                                <span className="hidden-xs">{this.state.userName}</span>
                             </a>
                             <ul className="dropdown-menu animated fadeInLeft">
                                 <li className="arrow"></li>
@@ -71,6 +78,17 @@ const LecturerCommonHeader = React.createClass({
             </div>
             //{/* end #header */}
         );
+    },
+
+    componentDidMount () {
+        const _self = this;
+
+        window.registerToGetUserInfo('l_commonheader', function () {
+            _self.setState({
+                userImage: window.globalUserInfo.userImage,
+                userName: window.globalUserInfo.userName
+            });
+        });
     }
 });
 

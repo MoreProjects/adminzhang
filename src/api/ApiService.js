@@ -13,7 +13,9 @@ const urlMap = {
 
     'targetList': apiBaseUrl + '/teacher/targets',
     'postTarget': apiBaseUrl + '/teacher/targets',
-    'deleteTarget': apiBaseUrl + '/teacher/targets/{targetId}'
+    'deleteTarget': apiBaseUrl + '/teacher/targets/{targetId}',
+
+    'messageList': apiBaseUrl + '/user/notices'
 };
 
 const ApiService = {
@@ -157,6 +159,20 @@ const ApiService = {
         const url = urlMap.deleteTarget.replace('{targetId}', targetId);
 
         return http.delete(url, requestConfig.params).then(response => {
+            return callback(response);
+        });
+    },
+
+    /**
+     * [messageList 获取消息列表]
+     * @param  {[object]}   requestConfig [请求参数]
+     * @param  {Function} callback      [请求完成，回调函数]
+     * @return {[...]}                 [回调函数返回值]
+     */
+    messageList(requestConfig, callback) {
+        const url = urlMap.messageList;
+
+        return http.get(url, requestConfig.params).then(response => {
             return callback(response);
         });
     }

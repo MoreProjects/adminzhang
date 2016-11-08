@@ -1,0 +1,6 @@
+{
+    "name": "LecturerMessageContent",
+    "version": "1.0.0",
+    "private": true,
+    "main": "./LecturerMessageContent.js"
+}

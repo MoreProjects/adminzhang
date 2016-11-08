@@ -4,15 +4,22 @@ import './LecturerSidebar.less';
 import LecturerSideBarItem from '../LecturerSideBarItem';
 
 const LecturerSidebar = React.createClass({
+    getInitialState() {
+        return {
+            userImage: '',
+            userName: ''
+        };
+     },
+
     SidebarMenu: [
         { text: '房间管理', icon: 'room', hash: '/classroom' },
         { text: '文字直播', icon: 'text_format', hash: '/word' },
         { text: '视频管理', icon: 'settings_input_svideo', hash: '/video' },
-        { text: '课程管理', icon: 'assignment', hash: '' },
+        { text: '课程管理', icon: 'assignment', hash: '/course' },
         { text: '指标管理', icon: 'invert_colors', hash: '/target' },
-        { text: '消息管理', icon: 'message', hash: '' },
+        { text: '消息管理', icon: 'message', hash: '/message' },
         { text: '师徒管理', icon: 'face', hash: '/follower' },
-        { text: '文章管理', icon: 'library_books', hash: '' },
+        { text: '文章管理', icon: 'library_books', hash: '/articles' },
     ],   
 
     renderSidebarMenu () {
@@ -43,11 +50,11 @@ const LecturerSidebar = React.createClass({
                             <li className="nav-profile">
                                 <a href="#" data-toggle="nav-profile">
                                     <div className="image">
-                                        <img src="http://e.hiphotos.baidu.com/baike/c0%3Dbaike92%2C5%2C5%2C92%2C30/sign=7f8a91998644ebf8797c6c6db890bc4f/32fa828ba61ea8d3e9f5dc9e960a304e241f5850.jpg" alt="" />
+                                        <img src={this.state.userImage} alt="" />
                                     </div>
                                     <div className="info">
                                         <b className="badge pull-right"></b>
-                                        Bill Gates
+                                        {this.state.userName}
                                         <small></small>
                                     </div>
                                 </a>
@@ -70,6 +77,17 @@ const LecturerSidebar = React.createClass({
                 {/* end #sidebar */}
             </div>
         );
+    },
+
+    componentDidMount () {
+        const _self = this;
+
+        window.registerToGetUserInfo('l_sidebar', function () {
+            _self.setState({
+                userImage: window.globalUserInfo.userImage,
+                userName: window.globalUserInfo.userName
+            });
+        });
     }
 });
 

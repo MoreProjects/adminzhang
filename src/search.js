@@ -10,10 +10,49 @@ import LecturerWordApp from './components/LecturerWordApp';
 import LecturerVideoApp from './components/LecturerVideoApp';
 import LecturerTargetApp from './components/LecturerTargetApp';
 import LecturerMessageApp from './components/LecturerMessageApp';
+import LecturerArticlesApp from './components/LecturerArticlesApp';
+import LecturerCourseApp from './components/LecturerCourseApp';
+import ajax from './api/ApiService';
+
+/**
+ * 全局
+ * 
+ * 用户基本信息
+ */
+window.globalUserInfo = null;
+
+window.onGetUserInfo = {};
+
+window.registerToGetUserInfo = function(key, callback) {
+    if (window.globalUserInfo) {
+        callback && callback();
+    } else {
+        if (key) {
+            window.onGetUserInfo[key] = callback;
+        }
+    }
+};
+
 
 
 function fetch() {
-    
+    ajax.liveInfo({
+        params: {}
+    }, (responseData) => {
+        if (responseData) {
+            window.globalUserInfo = {
+                userName: responseData.owner_name,
+                classroomID: responseData.id,
+                classroomName: responseData.room_name,
+                followerNum: responseData.following,
+                userImage: responseData.portrait_url
+            };
+
+            for (let key in window.onGetUserInfo) {
+                window.onGetUserInfo[key] && window.onGetUserInfo[key]();
+            }
+        }
+    });
 }
 
 function bootstrap() {
@@ -34,6 +73,8 @@ function bootstrap() {
                 <Route path="/video" component={LecturerVideoApp} />
                 <Route path="/target" component={LecturerTargetApp} />
                 <Route path="/message" component={LecturerMessageApp} />
+                <Route path="/articles" component={LecturerArticlesApp} />
+                <Route path="/course" component={LecturerCourseApp} />
             </Route>
         </Router>), document.getElementById('react_container')
     );
