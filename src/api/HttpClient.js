@@ -52,13 +52,13 @@ const HttpClient = {
             });
     }),
 
-    postWithFile: (file, path, requestConfig) => new Promise((resolve, reject) => {
+    postWithFile: (file, desc, path, requestConfig) => new Promise((resolve, reject) => {
         request
             .post(path)
             .use(noCache)
             .withCredentials()
-            .send(requestConfig)
-            .attach(file.key, file.value)
+            .field(desc.name, desc.value)
+            .attach(file.name, file.value, file.filename)
             .set('Authorization', 'MTA2NDc1NDE2OSBlMjdjZTI4YWU3NmQ0ZjY2YTYyMjdkNjk0MWY4OWEwMjJhODAyZTEyM2QxODRjNTFhYWQ4MDc4ODYyYTA4ZWU5')
             .set('CZD-Client', 'Android_10647541611610')
             .accept('application/json')
@@ -77,10 +77,9 @@ const HttpClient = {
 
     delete: (path, requestConfig) => new Promise((resolve, reject) => {
         request
-            .post(path)
+            .del(path)
             .use(noCache)
             .withCredentials()
-            .send(requestConfig)
             .set('Authorization', 'MTA2NDc1NDE2OSBlMjdjZTI4YWU3NmQ0ZjY2YTYyMjdkNjk0MWY4OWEwMjJhODAyZTEyM2QxODRjNTFhYWQ4MDc4ODYyYTA4ZWU5')
             .set('CZD-Client', 'Android_10647541611610')
             .accept('application/json')

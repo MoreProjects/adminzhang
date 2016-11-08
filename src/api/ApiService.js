@@ -140,10 +140,10 @@ const ApiService = {
      * @param  {Function} callback      [请求完成，回调函数]
      * @return {[...]}                 [回调函数返回值]
      */
-    postTarget(file, requestConfig, callback) {
+    postTarget(file, desc, requestConfig, callback) {
         const url = urlMap.postTarget;
 
-        return http.postWithFile(file, url, requestConfig.params).then(response => {
+        return http.postWithFile(file, desc, url, requestConfig.params).then(response => {
             return callback(response);
         });
     },
