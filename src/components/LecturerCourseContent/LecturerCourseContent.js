@@ -71,7 +71,11 @@ const LecturerCourseContent = React.createClass({
             );
         }
 
-        return courseListEle && courseListEle.reverse();
+        if (courseListEle.length > 1) {
+            courseListEle = courseListEle.reverse();
+        }
+
+        return courseListEle;
     },
 
     /**
