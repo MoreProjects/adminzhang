@@ -6,17 +6,18 @@ import LecturerProfile from '../LecturerProfile';
 
 import moment from 'moment';
 import {Editor, EditorState} from 'draft-js';
+import 'draft-js/dist/Draft.less';
 
 const LecturerArticlesContent = React.createClass({
-     getInitialState() {
+    getInitialState() {
         return {
             textLiveList: []
         };
      },
 
-     /**
-      * 获取文字直播列表
-      */
+    /**
+     * 获取文字直播列表
+     */
     getTextLiveList () {
         const _self = this;
 

@@ -2,7 +2,6 @@ import React from 'react';
 import './LecturerMessageContent.less';
 
 import ajax from '../../api/ApiService';
-import LecturerProfile from '../LecturerProfile';
 
 import moment from 'moment';
 
@@ -31,34 +30,37 @@ const LecturerMessageContent = React.createClass({
         });
     },
 
-     /**
-      * 发送新观点/新文字
-      */
-    sendNewWord () {
-        const _self = this;
-
-        ajax.postText('ctr34475696', {
-            params: {
-                content: this.refs.wordContentNewWord.value
-            }
-        }, (responseData) => {
-            _self.refs.wordContentNewWord.value = '';
-            _self.getTextLiveList();
-        });
-    },
-
-    renderTextLiveList () {
-        let textLiveListEle = this.state.textLiveList.map((item, index) => {
-            let ctime = moment(item.create_time).format('HH:mm');
+    renderMessageList () {
+        let messageListEle = this.state.allMessageList.map((item, index) => {
             return (
-                <tr>
-                    <td>{ctime}</td>
-                    <td>{item.content}</td>
-                </tr>
+                <div className="media media-sm note note-success" key={'l-messagecontent-' + index} >
+                    <h3 className="m-t-10"><i className="fa fa-cog"></i> {item.title}</h3>
+                    <p className="l-messagecontent-desc">
+                        {item.title}
+                    </p>
+                    <p className="text-right m-b-0">
+                        <a href="javascript:;" className="btn btn-white m-r-5" onClick={this.togglerShow} >展开</a>
+                        <a href="javascript:;" className="btn btn-primary" onClick={this.togglerHide} >收起</a>
+                    </p>
+                </div>
             );
         });
 
-        return textLiveListEle.reverse();
+        return messageListEle;
+    },
+
+    /**
+     * 收起 消息正文内容
+     */
+    togglerHide (event) {
+
+    },
+
+    /**
+     * 展开 消息正文内容
+     */
+    togglerShow (event) {
+
     },
 
     /**
@@ -67,6 +69,7 @@ const LecturerMessageContent = React.createClass({
      * @returns
      */
     render () {
+        let messageListEle = this.renderMessageList();
 
         return (
             <div id="content" className="l-messagecontent content">
@@ -78,56 +81,7 @@ const LecturerMessageContent = React.createClass({
                         <div className="tab-content">
 
                             <div className="tab-pane fade active in" id="default-tab-1">
-                                <div className="media media-sm note note-success">
-                                    <h3 className="m-t-10"><i className="fa fa-cog"></i> 系统通知，快去充值！！！！！！！</h3>
-                                    <p>
-                                        您的账户余额不足，请及时充值，避免影响使用。
-                                    </p>
-                                    <p className="text-right m-b-0">
-                                        <a href="javascript:;" className="btn btn-white m-r-5">展开</a>
-                                        <a href="javascript:;" className="btn btn-primary">收起</a>
-                                    </p>
-                                </div>
-                                <div className="media media-sm note note-success">
-                                    <h3 className="m-t-10"><i className="fa fa-cog"></i> 系统通知，快去充值！！！！！！！</h3>
-                                    <p>
-                                        您的账户余额不足，请及时充值，避免影响使用。
-                                    </p>
-                                    <p className="text-right m-b-0">
-                                        <a href="javascript:;" className="btn btn-white m-r-5">展开</a>
-                                        <a href="javascript:;" className="btn btn-primary">收起</a>
-                                    </p>
-                                </div>
-                                <div className="media media-sm note note-success">
-                                    <h3 className="m-t-10"><i className="fa fa-cog"></i> 系统通知，快去充值！！！！！！！</h3>
-                                    <p>
-                                        您的账户余额不足，请及时充值，避免影响使用。
-                                    </p>
-                                    <p className="text-right m-b-0">
-                                        <a href="javascript:;" className="btn btn-white m-r-5">展开</a>
-                                        <a href="javascript:;" className="btn btn-primary">收起</a>
-                                    </p>
-                                </div>
-                                <div className="media media-sm note note-success">
-                                    <h3 className="m-t-10"><i className="fa fa-cog"></i> 系统通知，快去充值！！！！！！！</h3>
-                                    <p>
-                                        您的账户余额不足，请及时充值，避免影响使用。
-                                    </p>
-                                    <p className="text-right m-b-0">
-                                        <a href="javascript:;" className="btn btn-white m-r-5">展开</a>
-                                        <a href="javascript:;" className="btn btn-primary">收起</a>
-                                    </p>
-                                </div>
-                                <div className="media media-sm note note-success">
-                                    <h3 className="m-t-10"><i className="fa fa-cog"></i> 系统通知，快去充值！！！！！！！</h3>
-                                    <p>
-                                        您的账户余额不足，请及时充值，避免影响使用。
-                                    </p>
-                                    <p className="text-right m-b-0">
-                                        <a href="javascript:;" className="btn btn-white m-r-5">展开</a>
-                                        <a href="javascript:;" className="btn btn-primary">收起</a>
-                                    </p>
-                                </div>
+                                {messageListEle}
                             </div>
                             <div className="tab-pane fade" id="default-tab-2">
                                 <blockquote>

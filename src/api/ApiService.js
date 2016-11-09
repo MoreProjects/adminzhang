@@ -6,16 +6,38 @@ const urlMap = {
     'teacherCourses': apiBaseUrl + '/teacher/courses',
     'liveInfo': apiBaseUrl + '/live/info',
     'courses': apiBaseUrl + '/courses',
-    'teacherFollower': apiBaseUrl + '/teacher/followers',
     'userInfo': apiBaseUrl + '/user/info',
+
+    /**
+     * 文字直播
+     */
     'textLiveList': apiBaseUrl + '/text-lives/{textRoomId}/texts',
     'postText': apiBaseUrl + '/live/text-room/{id}/texts',
 
+    /**
+     * 指标管理
+     */
     'targetList': apiBaseUrl + '/teacher/targets',
     'postTarget': apiBaseUrl + '/teacher/targets',
     'deleteTarget': apiBaseUrl + '/teacher/targets/{targetId}',
 
-    'messageList': apiBaseUrl + '/user/notices'
+    /**
+     * 消息列表
+     */
+    'messageList': apiBaseUrl + '/user/notices',
+
+    /**
+     * 拜徒管理
+     */
+    'followerList': apiBaseUrl + '/teacher/followers',
+    'followerState': apiBaseUrl + '/teacher/followers/{uid}',
+
+    /**
+     * 视频管理
+     */
+    'recordingsList': apiBaseUrl + '/teacher/recordings',
+    'coursesList': apiBaseUrl + '/teacher/courses',
+    'videoHighlightList': apiBaseUrl + '/teacher/video-highlights'
 };
 
 const ApiService = {
@@ -55,20 +77,6 @@ const ApiService = {
      */
     courses(requestConfig, callback) {
         const url = urlMap.courses;
-
-        return http.get(url, requestConfig.params).then(response => {
-            return callback(response);
-        });
-    },
-
-    /**
-     * [teacherFollower 获取讲师拜徒列表]
-     * @param  {[object]}   requestConfig [请求参数]
-     * @param  {Function} callback      [请求完成，回调函数]
-     * @return {[...]}                 [回调函数返回值]
-     */
-    teacherFollower(requestConfig, callback) {
-        const url = urlMap.teacherFollower;
 
         return http.get(url, requestConfig.params).then(response => {
             return callback(response);
@@ -171,6 +179,77 @@ const ApiService = {
      */
     messageList(requestConfig, callback) {
         const url = urlMap.messageList;
+
+        return http.get(url, requestConfig.params).then(response => {
+            return callback(response);
+        });
+    },
+
+    /**
+     * [followerList 获取师徒列表]
+     * @param  {[object]}   requestConfig [请求参数]
+     * @param  {Function} callback      [请求完成，回调函数]
+     * @return {[...]}                 [回调函数返回值]
+     */
+    followerList(requestConfig, callback) {
+        const url = urlMap.followerList;
+
+        return http.get(url, requestConfig.params).then(response => {
+            return callback(response);
+        });
+    },
+
+    /**
+     * [followerState 改变follower状态，接受或拒绝请求]
+     * @param  {[string]}   uId  [followerID]
+     * @param  {[object]}   requestConfig [请求参数]
+     * @param  {Function} callback      [请求完成，回调函数]
+     * @return {[...]}                 [回调函数返回值]
+     */
+    followerState(uId, requestConfig, callback) {
+        const url = urlMap.followerState.replace('{uid}', uId);
+
+        return http.put(url, requestConfig.params).then(response => {
+            return callback(response);
+        });
+    },
+
+    /**
+     * [recordingsList 获取历史录播列表]
+     * @param  {[object]}   requestConfig [请求参数]
+     * @param  {Function} callback      [请求完成，回调函数]
+     * @return {[...]}                 [回调函数返回值]
+     */
+    recordingsList(requestConfig, callback) {
+        const url = urlMap.recordingsList;
+
+        return http.get(url, requestConfig.params).then(response => {
+            return callback(response);
+        });
+    },
+
+    /**
+     * [coursesList 获取公开课列表]
+     * @param  {[object]}   requestConfig [请求参数]
+     * @param  {Function} callback      [请求完成，回调函数]
+     * @return {[...]}                 [回调函数返回值]
+     */
+    coursesList(requestConfig, callback) {
+        const url = urlMap.coursesList;
+
+        return http.get(url, requestConfig.params).then(response => {
+            return callback(response);
+        });
+    },
+
+    /**
+     * [videoHighlightList 获取视频集锦列表]
+     * @param  {[object]}   requestConfig [请求参数]
+     * @param  {Function} callback      [请求完成，回调函数]
+     * @return {[...]}                 [回调函数返回值]
+     */
+    videoHighlightList(requestConfig, callback) {
+        const url = urlMap.videoHighlightList;
 
         return http.get(url, requestConfig.params).then(response => {
             return callback(response);

@@ -4,14 +4,177 @@ import './LecturerFollowerContent.less';
 import ajax from '../../api/ApiService';
 
 const LecturerFollowerContent = React.createClass({
-    /**
+    getInitialState() {
+        return {
+            allFollowerList: [],
+            allReqFollowerList: []
+        };
+     },
 
+     /**
+      * 获取 已通过/申请中 的followe列表
+      */
+    getFollowerList (status) {
+        const _self = this;
+
+        ajax.followerList({
+            params: {
+                page: 1,
+                page_size: 10,
+                status: status
+            }
+        }, (responseData) => {
+            if (responseData) {
+                if (status === 1) {
+                    _self.setState({
+                        allReqFollowerList: responseData.list
+                    });
+                } else if (status === 2) {
+                    _self.setState({
+                        allFollowerList: responseData.list
+                    });
+                }
+            }
+        });
+    },
+
+    /**
+     * 拒绝 拜徒 请求
+     * 
+     * @returns
+     */
+    refuseReqFollower (event) {
+        const _self = this;
+        let uid = event.target.getAttribute('data-fid') || '';
+        
+        if (!uid) {
+            return false;
+        }
+
+        this.ajaxReqFollower(uid, 3, function () {
+            // 1 === 申请中 的follower列表
+            _self.getFollowerList(1);
+        });
+    },
+
+    /**
+     * 接受 拜徒 请求
+     * 
+     * @returns
+     */
+    acceptReqFollower (event) {
+        const _self = this;
+        let uid = event.target.getAttribute('data-fid') || '';
+        
+        if (!uid) {
+            return false;
+        }
+
+        this.ajaxReqFollower(uid, 2, function () {
+            // 1 === 申请中 的follower列表
+            _self.getFollowerList(1);
+
+            // 2 === 已通过 的follower列表
+            _self.getFollowerList(2);
+        });
+    },
+
+    /**
+     * @param {any} uid
+     * @param {any} status  1 等待确认  2 接受请求  3 拒绝
+     * @param {any} callback
+     * @returns
+     */
+    ajaxReqFollower (uid, status, callback) {        
+        if (!uid) {
+            return false;
+        }
+
+        ajax.followerState(uid, {
+            params: {
+                relation_status: status
+            }
+        }, (responseData) => {
+            if (responseData) {
+                callback && callback();
+            }
+        });
+    },
+
+    /**
+     * 渲染 申请中 的follower列表
+     * 
+     * @returns
+     */
+    renderReqFollowerList () {
+
+        let reqFollowerListEle = this.state.allReqFollowerList && this.state.allReqFollowerList.map((item, index) => {
+            return (
+                <div className="alert alert-success invoice" key={'l-followercontent-' + index} >
+                    <div className="invoice-company text-inverse">
+                        <span className="pull-right hidden-print">
+                            <a href="javascript:;" onClick={this.refuseReqFollower} data-fid={item.id} className="btn btn-white btn-sm m-r-10 p-l-20 p-r-20"> 拒绝 </a>
+                            <a href="javascript:;" onClick={this.acceptReqFollower} data-fid={item.id} className="btn btn-primary btn-sm btn-primary p-l-20 p-r-20"> 同意 </a>
+                        </span>
+                        我是{item.name}，请求拜你为师
+                    </div>
+                </div>
+            );
+        });
+
+        reqFollowerListEle = reqFollowerListEle || (
+            <div className="alert alert-success invoice">
+                <div className="invoice-company text-inverse">
+                    暂时没有拜师请求
+                </div>
+            </div>
+        );
+
+        return reqFollowerListEle;
+    },
+
+    /**
+     * 渲染 已通过 的follower列表
+     * 
+     * @returns
+     */
+    renderFollowerList () {
+
+        let followerListEle = this.state.allFollowerList && this.state.allFollowerList.map((item, index) => {
+            return (
+                <div className="media media-sm note note-success" key={'l-followercontentreq-' + index} >
+                    <a className="media-left" href="javascript:;">
+                        <img src={item.photo} alt="" className="media-object rounded-corner" />
+                    </a>
+                    <div className="media-body">
+                        <h4 className="media-heading">&nbsp;</h4>
+                        <p>{item.name}</p>
+                    </div>
+                </div>
+            );
+        });
+
+        followerListEle = followerListEle || (
+            <div className="alert alert-success invoice">
+                <div className="invoice-company text-inverse">
+                    暂时没有徒弟，现在就去收徒弟
+                </div>
+            </div>
+        );
+
+        return followerListEle;
+    },
+
+    /**
      * 
      * @returns
      */
     render () {
+        let followerListEle = this.renderFollowerList();
+        let reqFollowerListEle = this.renderReqFollowerList();
+
         return (
-            <div id="content" className="content">
+            <div id="content" className="content l-followercontent">
                 
                 {/* begin panel */}
                 <div className="panel panel-success" data-sortable-id="ui-widget-12">
@@ -19,33 +182,7 @@ const LecturerFollowerContent = React.createClass({
                         <h4 className="panel-title">拜师请求</h4>
                     </div>
                     <div className="panel-body">
-                        <div className="alert alert-success invoice">
-                            <div className="invoice-company text-inverse">
-                                <span className="pull-right hidden-print">
-                                    <a href="javascript:;" className="btn btn-white btn-sm m-r-10 p-l-20 p-r-20"> 拒绝 </a>
-                                    <a href="javascript:;" onclick="window.print()" className="btn btn-primary btn-sm btn-primary p-l-20 p-r-20"> 同意 </a>
-                                </span>
-                                我的乔峰，请求拜你为师
-                            </div>
-                        </div>
-                        <div className="alert alert-success invoice">
-                            <div className="invoice-company text-inverse">
-                                <span className="pull-right hidden-print">
-                                    <a href="javascript:;" className="btn btn-white btn-sm m-r-10 p-l-20 p-r-20"> 拒绝 </a>
-                                    <a href="javascript:;" onclick="window.print()" className="btn btn-primary btn-sm btn-primary p-l-20 p-r-20"> 同意 </a>
-                                </span>
-                                我的乔峰，请求拜你为师
-                            </div>
-                        </div>
-                        <div className="alert alert-success invoice">
-                            <div className="invoice-company text-inverse">
-                                <span className="pull-right hidden-print">
-                                    <a href="javascript:;" className="btn btn-white btn-sm m-r-10 p-l-20 p-r-20"> 拒绝 </a>
-                                    <a href="javascript:;" onclick="window.print()" className="btn btn-primary btn-sm btn-primary p-l-20 p-r-20"> 同意 </a>
-                                </span>
-                                我的乔峰，请求拜你为师
-                            </div>
-                        </div>
+                        {reqFollowerListEle}
                     </div>
                 </div>
                 {/* end panel */}
@@ -56,80 +193,7 @@ const LecturerFollowerContent = React.createClass({
                         <h4 className="panel-title">我的徒弟</h4>
                     </div>
                     <div className="panel-body">
-                        <table class="table table-bordered">
-                            <tbody>
-                                <tr>
-                                    <td class="text-center">
-                                        <div className="media media-sm note note-success">
-                                            <a className="media-left" href="javascript:;">
-                                                <img src="http://e.hiphotos.baidu.com/baike/c0%3Dbaike92%2C5%2C5%2C92%2C30/sign=7f8a91998644ebf8797c6c6db890bc4f/32fa828ba61ea8d3e9f5dc9e960a304e241f5850.jpg" alt="" className="media-object rounded-corner" />
-                                            </a>
-                                            <div className="media-body">
-                                                <h4 className="media-heading">&nbsp;</h4>
-                                                <p>乔峰</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="text-center">
-                                        <div className="media media-sm note note-success">
-                                            <a className="media-left" href="javascript:;">
-                                                <img src="http://e.hiphotos.baidu.com/baike/c0%3Dbaike92%2C5%2C5%2C92%2C30/sign=7f8a91998644ebf8797c6c6db890bc4f/32fa828ba61ea8d3e9f5dc9e960a304e241f5850.jpg" alt="" className="media-object rounded-corner" />
-                                            </a>
-                                            <div className="media-body">
-                                                <h4 className="media-heading">&nbsp;</h4>
-                                                <p>乔峰</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="text-center">
-                                        <div className="media media-sm note note-success">
-                                            <a className="media-left" href="javascript:;">
-                                                <img src="http://e.hiphotos.baidu.com/baike/c0%3Dbaike92%2C5%2C5%2C92%2C30/sign=7f8a91998644ebf8797c6c6db890bc4f/32fa828ba61ea8d3e9f5dc9e960a304e241f5850.jpg" alt="" className="media-object rounded-corner" />
-                                            </a>
-                                            <div className="media-body">
-                                                <h4 className="media-heading">&nbsp;</h4>
-                                                <p>乔峰</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center">
-                                        <div className="media media-sm note note-success">
-                                            <a className="media-left" href="javascript:;">
-                                                <img src="http://e.hiphotos.baidu.com/baike/c0%3Dbaike92%2C5%2C5%2C92%2C30/sign=7f8a91998644ebf8797c6c6db890bc4f/32fa828ba61ea8d3e9f5dc9e960a304e241f5850.jpg" alt="" className="media-object rounded-corner" />
-                                            </a>
-                                            <div className="media-body">
-                                                <h4 className="media-heading">&nbsp;</h4>
-                                                <p>乔峰</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="text-center">
-                                        <div className="media media-sm note note-success">
-                                            <a className="media-left" href="javascript:;">
-                                                <img src="http://e.hiphotos.baidu.com/baike/c0%3Dbaike92%2C5%2C5%2C92%2C30/sign=7f8a91998644ebf8797c6c6db890bc4f/32fa828ba61ea8d3e9f5dc9e960a304e241f5850.jpg" alt="" className="media-object rounded-corner" />
-                                            </a>
-                                            <div className="media-body">
-                                                <h4 className="media-heading">&nbsp;</h4>
-                                                <p>乔峰</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="text-center">
-                                        <div className="media media-sm note note-success">
-                                            <a className="media-left" href="javascript:;">
-                                                <img src="http://e.hiphotos.baidu.com/baike/c0%3Dbaike92%2C5%2C5%2C92%2C30/sign=7f8a91998644ebf8797c6c6db890bc4f/32fa828ba61ea8d3e9f5dc9e960a304e241f5850.jpg" alt="" className="media-object rounded-corner" />
-                                            </a>
-                                            <div className="media-body">
-                                                <h4 className="media-heading">&nbsp;</h4>
-                                                <p>乔峰</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        {followerListEle}
                     </div>
                 </div>
             </div>
@@ -137,11 +201,11 @@ const LecturerFollowerContent = React.createClass({
     },
 
     componentDidMount () {
-        ajax.teacherFollower({
-            params: {}
-        }, (responseData) => {
-           // console.log(responseData);
-        });
+        // 1 === 申请中 的follower列表
+        this.getFollowerList(1);
+
+        // 2 === 已通过 的follower列表
+        this.getFollowerList(2);
     }
 });
 

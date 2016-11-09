@@ -48,10 +48,13 @@ const LecturerWordContent = React.createClass({
         let textLiveListEle = this.state.textLiveList.map((item, index) => {
             let ctime = moment(item.create_time).format('HH:mm');
             return (
-                <tr>
-                    <td>{ctime}</td>
-                    <td>{item.content}</td>
-                </tr>
+                <div className="alert alert-success" key={'l-wordcontent-' + index}>
+                    <div className="invoice-company text-inverse">
+                        <span className="pull-right hidden-print">
+                        </span>
+                        <div>{ctime} <a href="javascript:;" target="_blank" className="pull-right l-wordcontent-file" >{item.content}</a></div>
+                    </div>
+                </div>
             );
         });
 
@@ -86,11 +89,10 @@ const LecturerWordContent = React.createClass({
                         </div>
                     </div>
 
-                    <table className="table table-invoice">
-                        <tbody>
-                            {textLiveListEle}
-                        </tbody>
-                    </table>
+                    <div className="panel panel-success" data-sortable-id="ui-widget-12">
+                        <div>&nbsp;</div>
+                        {textLiveListEle}
+                    </div>
                 </div>
             </div>
         );
