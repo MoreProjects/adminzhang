@@ -22,9 +22,11 @@ const LecturerWordContent = React.createClass({
         ajax.textLiveList('ctr34475696', {
             params: {}
         }, (responseData) => {
-            _self.setState({
-                textLiveList: responseData.list
-            });
+            if (responseData) {
+                _self.setState({
+                    textLiveList: responseData.list
+                });
+            }
         });
     },
 
@@ -39,11 +41,18 @@ const LecturerWordContent = React.createClass({
                 content: this.refs.wordContentNewWord.value
             }
         }, (responseData) => {
-            _self.refs.wordContentNewWord.value = '';
-            _self.getTextLiveList();
+            if (responseData) {
+                _self.refs.wordContentNewWord.value = '';
+                _self.getTextLiveList();
+            }
         });
     },
 
+    /**
+     * 渲染 文字直播列表
+     * 
+     * @returns
+     */
     renderTextLiveList () {
         let textLiveListEle = this.state.textLiveList && this.state.textLiveList.map((item, index) => {
             let ctime = moment(item.create_time).format('HH:mm');
@@ -72,7 +81,6 @@ const LecturerWordContent = React.createClass({
     },
 
     /**
-
      * 
      * @returns
      */

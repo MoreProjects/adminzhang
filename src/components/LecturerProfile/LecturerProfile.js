@@ -1,8 +1,6 @@
 import React from 'react';
 import './LecturerProfile.less';
 
-import ajax from '../../api/ApiService';
-
 const LecturerProfile = React.createClass({
     getInitialState() {
         return {

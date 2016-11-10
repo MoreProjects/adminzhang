@@ -23,9 +23,11 @@ const LecturerTargetContent = React.createClass({
                 page_size: 20
             }
         }, (responseData) => {
-            _self.setState({
-                targetList: responseData.list
-            });
+            if (responseData) {
+                _self.setState({
+                    targetList: responseData.list
+                });
+            }
         });
     },
 
@@ -46,7 +48,9 @@ const LecturerTargetContent = React.createClass({
             params: {
             }
         }, (responseData) => {
-            _self.getTargetList();
+            if (responseData) {
+                _self.getTargetList();
+            }
         });
     },
 
@@ -58,7 +62,7 @@ const LecturerTargetContent = React.createClass({
      */
     deleteTarget (event) {
         const _self = this;
-        let targetId = event.target.getAttribute('data-tid');
+        let targetId = event.target.getAttribute('data-tid') || '';
 
         if (!targetId) {
             return false;
@@ -69,7 +73,9 @@ const LecturerTargetContent = React.createClass({
 
             }
         }, (responseData) => {
-            _self.getTargetList();
+            if (responseData) {
+                _self.getTargetList();
+            }
         });
     },
 
@@ -79,40 +85,20 @@ const LecturerTargetContent = React.createClass({
      * @returns
      */
     changeUploadFile (event) {
-         // 支持 FileReader 的浏览器版本
          let file = this.refs.input.files[0];
-         console.log(file);
-         this.setState({
-             filename: (file && file.name) || ''
-         });
-         /*
-                if (window.FileReader) {
-                    var f = this.files[0];
-                    // size 单位是 字节（b）
-                    if (!f ||
-                        f.size > 5 * 1024 * 1024 ||
-                        !(f.type == 'image/jpeg' || f.type == 'image/png')
-                        )
-                    {
-                        $('.logo-t', _t.$el).addClass('error-tips');
-                        //$('.logo-i', _t.$el).css('backgroundImage', 'url(' + defaultImgSrc + ')');
-                        //_t.hasFile = false;
-                        // 发现文件错误后，停止回显
-                        return;
-                    } else {
-                        $('.logo-t', _t.$el).removeClass('error-tips');
-                    }
 
-                    var reader = new FileReader();
-                    reader.onload = function() {
-                        $('.logo-i', _t.$el).css('backgroundImage', 'url(' + this.result + ')');
-                    };
-                    reader.readAsDataURL(f);
-                }
-            */
+         if (file) {
+             this.setState({
+                filename: (file && file.name) || ''
+            });
+         }
     },
 
-
+    /**
+     * 渲染指标列表
+     * 
+     * @returns
+     */
     renderTargetList () {
         let targetListEle = this.state.targetList && this.state.targetList.map((item, index) => {
             return (
@@ -127,11 +113,20 @@ const LecturerTargetContent = React.createClass({
             );
         });
 
-        return targetListEle && targetListEle.reverse();
+        if (!targetListEle || targetListEle.length === 0) {
+            targetListEle = [].push(
+                <p>暂时没有指标</p>
+            );
+        }
+
+        if (targetListEle.length > 1) {
+            targetListEle = targetListEle.reverse();
+        }
+
+        return targetListEle;
     },
 
     /**
-
      * 
      * @returns
      */
@@ -152,7 +147,6 @@ const LecturerTargetContent = React.createClass({
                                     <textarea className="form-control" placeholder="请输入指标描述" rows="5" ref="desc"></textarea>
                                 </div>
                             </div>
-                           
 
                             <div className="form-group">
                                 <label className="col-md-3 control-label">指标文件：</label>

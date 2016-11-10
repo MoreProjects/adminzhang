@@ -25,9 +25,11 @@ const LecturerVideoContent = React.createClass({
                 page_size: 5
             }
         }, (responseData) => {
-            _self.setState({
-                recordingsList: responseData.list
-            });
+            if (responseData) {
+                _self.setState({
+                    recordingsList: responseData.list
+                });
+            }
         });
     },
 
@@ -43,9 +45,11 @@ const LecturerVideoContent = React.createClass({
                 page_size: 5
             }
         }, (responseData) => {
-            _self.setState({
-                coursesList: responseData.list
-            });
+            if (responseData) {
+                _self.setState({
+                    coursesList: responseData.list
+                });
+            }
         });
     },
 
@@ -61,9 +65,11 @@ const LecturerVideoContent = React.createClass({
                 page_size: 5
             }
         }, (responseData) => {
-            _self.setState({
-                videoHighlightList: responseData.list
-            });
+            if (responseData) {
+                _self.setState({
+                    videoHighlightList: responseData.list
+                });
+            }
         });
     },
 
@@ -101,7 +107,6 @@ const LecturerVideoContent = React.createClass({
     },
 
     /**
-
      * 
      * @returns
      */
@@ -111,7 +116,7 @@ const LecturerVideoContent = React.createClass({
         let videoHighlightListEle = this.renderList(this.state.videoHighlightList);
 
         return (
-            <div id="content" className="l-wordcontent content">
+            <div id="content" className="l-videocontent content">
                 <LecturerProfile />
                 <div className="panel panel-success" data-sortable-id="ui-widget-12">
                     <div className="panel-heading">

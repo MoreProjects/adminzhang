@@ -10,7 +10,7 @@ const LecturerContainer = React.createClass({
     render () {
         return (
             <div>
-                a
+                
             </div>
         );
     }

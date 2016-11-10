@@ -1,11 +1,9 @@
 import React from 'react';
-import './LecturerFollowerApp.less';
+import './LecturerFollowerContainer.less';
 
 import LecturerCommonHeader from '../LecturerCommonHeader';
 import LecturerSidebar from '../LecturerSidebar';
 import LecturerFollowerContent from '../LecturerFollowerContent';
-
-import ajax from '../../api/ApiService';
 
 const LecturerFollowerApp = React.createClass({
     /**

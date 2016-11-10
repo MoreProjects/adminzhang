@@ -24,9 +24,11 @@ const LecturerCourseContent = React.createClass({
                 page_size: 20
             }
         }, (responseData) => {
-            _self.setState({
-                coursesList: responseData.list
-            });
+            if (responseData) {
+                 _self.setState({
+                    coursesList: responseData.list
+                });
+            }
         });
     },
 
@@ -45,11 +47,18 @@ const LecturerCourseContent = React.createClass({
             params: {
             }
         }, (responseData) => {
-            _self.refs.desc.value = '';
-            _self.getCoursesList();
+            if (responseData) {
+                _self.refs.desc.value = '';
+                _self.getCoursesList();
+            }
         });
     },
 
+    /**
+     * 渲染课程列表
+     * 
+     * @returns
+     */
     renderCourseList () {
         let courseListEle = this.state.coursesList && this.state.coursesList.map((item, index) => {
             let ctime = moment(item.create_time).format('HH:mm');
@@ -79,7 +88,6 @@ const LecturerCourseContent = React.createClass({
     },
 
     /**
-
      * 
      * @returns
      */

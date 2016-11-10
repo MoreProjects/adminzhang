@@ -11,13 +11,12 @@ const LecturerCommonHeader = React.createClass({
 
     /**
      * 
-     * 
      * @returns
      */
     render () {
         return (
             //{/* begin #header */}
-            <div id="header" className="header navbar navbar-default navbar-fixed-top">
+            <div id="header" className="header navbar navbar-default navbar-fixed-top l-commonheader">
                 {/* begin container-fluid */}
                 <div className="container-fluid">
                     {/* begin mobile sidebar expand / collapse button */}
@@ -32,7 +31,7 @@ const LecturerCommonHeader = React.createClass({
                             <span className="icon-bar"></span>
                             <span className="icon-bar"></span>
                         </button>
-                        <a href="https://www.baidu.com" className="navbar-brand">
+                        <a href="javascript:;" className="navbar-brand">
                             江苏
                         </a>
                     </div>

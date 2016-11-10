@@ -5,7 +5,6 @@ import LecturerFollowerContainer from '../LecturerFollowerContainer';
 
 const LecturerFollowerApp = React.createClass({
     /**
-
      * 
      * @returns
      */

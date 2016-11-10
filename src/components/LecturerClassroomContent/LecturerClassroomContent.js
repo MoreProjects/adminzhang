@@ -80,7 +80,6 @@ const LecturerClassroomContent = React.createClass({
     },
 
     /**
-
      * 
      * @returns
      */

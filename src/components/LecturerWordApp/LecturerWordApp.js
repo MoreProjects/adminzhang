@@ -5,7 +5,6 @@ import LecturerWordContainer from '../LecturerWordContainer';
 
 const LecturerWordApp = React.createClass({
     /**
-
      * 
      * @returns
      */

@@ -5,7 +5,6 @@ import LecturerVideoContainer from '../LecturerVideoContainer';
 
 const LecturerVideoApp = React.createClass({
     /**
-
      * 
      * @returns
      */

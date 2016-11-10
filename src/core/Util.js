@@ -20,35 +20,6 @@ const Util = {
 
     /**
      * @public
-     * [getDeviceInfo 获取当前设备信息，包括设备类型和设备版本 ]
-     * @return {[device]} [包括设备类型和设备版本的对象] 
-     */
-    getDeviceInfo: function() {
-        let device = {
-                platform: '',
-                version: ''
-            },
-
-            ua = window.navigator.userAgent,
-
-            _android = [],
-            _ios = [];
-
-        if ((_android = ua.match(/(Android);?[\s\/]+([\d.]+)?/))) {
-            device.platform = 'android';
-            device.version = _android[2];
-        } else if ((_ios = ua.match(/(iPhone|iPod|iPad).*OS\s([\d_]+)/))) {
-            device.platform = 'ios';
-            device.version = _ios[2].replace(/_/g, '.');
-        } else {
-            device.platform = 'pc';
-        }
-
-        return device;
-    },
-
-    /**
-     * @public
      * [getDpr 获取当前显示设备的dpr，依赖第三方工具库，如adaptor.js，
      *         给html根节点添加data-dpr属性，默认为1 ]
      * @return {[Number]} [返回dpr值]
@@ -70,22 +41,6 @@ const Util = {
         dpr = parseInt(dpr);
 
         return dpr;
-    },
-
-    /**
-     * [setTitle 设置当前view的标题]
-     * @param {[...]} title [...]
-     */
-    setTitle(title) {
-        FSOpen.navigation.setTitle({
-            title: title,
-            onSuccess: function(resp) {
-                log('Invokie success', resp)
-            },
-            onFail: function(resp) {
-                log('Invokie fail', resp)
-            }
-        });
     },
 
     nextUid() {

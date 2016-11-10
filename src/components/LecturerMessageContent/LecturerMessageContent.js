@@ -3,8 +3,6 @@ import './LecturerMessageContent.less';
 
 import ajax from '../../api/ApiService';
 
-import moment from 'moment';
-
 const LecturerMessageContent = React.createClass({
      getInitialState() {
         return {
@@ -113,11 +111,20 @@ const LecturerMessageContent = React.createClass({
             );
         });
 
+        if (!messageListEle || messageListEle.length === 0) {
+            messageListEle = [].push(
+                <p>暂时没有消息</p>
+            );
+        }
+
+        if (messageListEle.length > 1) {
+            messageListEle = messageListEle.reverse();
+        }
+
         return messageListEle;
     },
 
     /**
-
      * 
      * @returns
      */

@@ -68,7 +68,7 @@ const LecturerArticlesContent = React.createClass({
         }, (responseData) => {
             _self.refs.articletitle.value = '';
             _self.refs.articlecontent.value = '';
-            this.refs.l_articlecontent_error.classList.add('hide');
+            _self.refs.l_articlecontent_error.classList.add('hide');
             _self.getArticleList();
         });
     },
@@ -78,9 +78,9 @@ const LecturerArticlesContent = React.createClass({
      * 
      * @returns
      */
-    deleteArticle () {
+    deleteArticle (event) {
         const _self = this;
-        let articleId = event.target.getArribute('data-aid') || '';
+        let articleId = event.target.getAttribute('data-aid') || '';
 
         if (!articleId) {
             return;
@@ -90,7 +90,9 @@ const LecturerArticlesContent = React.createClass({
             params: {
             }
         }, (responseData) => {
-            _self.getArticleList();
+            if (responseData) {
+                _self.getArticleList();
+            }
         });
     },
 
@@ -144,7 +146,6 @@ const LecturerArticlesContent = React.createClass({
     },
 
     /**
-
      * 
      * @returns
      */

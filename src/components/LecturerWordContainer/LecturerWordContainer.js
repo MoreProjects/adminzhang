@@ -5,8 +5,6 @@ import LecturerCommonHeader from '../LecturerCommonHeader';
 import LecturerSidebar from '../LecturerSidebar';
 import LecturerWordContent from '../LecturerWordContent';
 
-import ajax from '../../api/ApiService';
-
 const LecturerWordContainer = React.createClass({
     /**
      * 

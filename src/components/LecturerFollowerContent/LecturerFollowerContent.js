@@ -107,7 +107,6 @@ const LecturerFollowerContent = React.createClass({
      * @returns
      */
     renderReqFollowerList () {
-
         let reqFollowerListEle = this.state.allReqFollowerList && this.state.allReqFollowerList.map((item, index) => {
             return (
                 <div className="alert alert-success invoice" key={'l-followercontent-' + index} >

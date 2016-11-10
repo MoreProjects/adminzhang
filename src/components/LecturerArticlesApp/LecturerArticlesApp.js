@@ -5,7 +5,6 @@ import LecturerArticlesContainer from '../LecturerArticlesContainer';
 
 const LecturerArticlesApp = React.createClass({
     /**
-
      * 
      * @returns
      */

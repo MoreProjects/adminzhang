@@ -31,8 +31,8 @@ const LecturerSidebar = React.createClass({
 
         return menu;
     },
+    
     /**
-
      * 
      * @returns
      */
