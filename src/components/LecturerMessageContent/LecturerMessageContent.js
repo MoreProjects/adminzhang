@@ -8,30 +8,97 @@ import moment from 'moment';
 const LecturerMessageContent = React.createClass({
      getInitialState() {
         return {
-            allMessageList: []
+            allUnreadMessageList: [],
+            allReadMessageList: []
         };
      },
 
-     /**
-      * 获取文字直播列表
-      */
-    getMessageList () {
+    /**
+     * 获取未读消息列表
+     */
+    getUnreadMessageList () {
         const _self = this;
 
         ajax.messageList({
             params: {
                 page: 1,
-                page_size: 20
+                page_size: 20,
+                is_read: false
             }
         }, (responseData) => {
-            _self.setState({
-                allMessageList: responseData.list
-            });
+            if (responseData) {
+                _self.setState({
+                    allUnreadMessageList: responseData.list
+                });
+            }
         });
     },
 
-    renderMessageList () {
-        let messageListEle = this.state.allMessageList.map((item, index) => {
+    /**
+     * 获取已读消息列表
+     */
+    getReadMessageList () {
+        const _self = this;
+
+        ajax.messageList({
+            params: {
+                page: 1,
+                page_size: 20,
+                is_read: true
+            }
+        }, (responseData) => {
+            if (responseData) {
+                 _self.setState({
+                    allReadMessageList: responseData.list
+                });
+            }
+        });
+    },
+
+    /**
+     * 收起 消息正文内容
+     */
+    togglerHide (event) {
+
+    },
+
+    /**
+     * 展开 消息正文内容
+     */
+    togglerShow (event) {
+        
+    },
+
+    /**
+     * 显示 未读 tab
+     */
+    showUnread () {
+        this.refs.read.classList.remove('active');
+        this.refs.read_content.classList.remove('active');
+
+        this.refs.unread.classList.add('active');
+        this.refs.unread_content.classList.add('active');
+    },
+
+    /**
+     * 显示 已读 tab
+     */
+    showRead () {
+        this.refs.read.classList.add('active');
+        this.refs.read_content.classList.add('active');
+
+        this.refs.unread.classList.remove('active');
+        this.refs.unread_content.classList.remove('active');
+    },
+
+    /**
+     * 统一渲染消息列表
+     * 
+     * @param {any} messagelist
+     * @returns
+     */
+    renderMessageList (messagelist) {
+        let messageListEle = messagelist && messagelist.map((item, index) => {
             return (
                 <div className="media media-sm note note-success" key={'l-messagecontent-' + index} >
                     <h3 className="m-t-10"><i className="fa fa-cog"></i> {item.title}</h3>
@@ -50,67 +117,27 @@ const LecturerMessageContent = React.createClass({
     },
 
     /**
-     * 收起 消息正文内容
-     */
-    togglerHide (event) {
-
-    },
-
-    /**
-     * 展开 消息正文内容
-     */
-    togglerShow (event) {
-
-    },
-
-    /**
 
      * 
      * @returns
      */
     render () {
-        let messageListEle = this.renderMessageList();
+        let unreadMessageListEle = this.renderMessageList(this.state.allUnreadMessageList);
+        let readMessageListEle = this.renderMessageList(this.state.allReadMessageList);
 
         return (
             <div id="content" className="l-messagecontent content">
                 <div className="panel">
                         <ul className="nav nav-tabs">
-                            <li className="active"><a href="#default-tab-1" data-toggle="tab">未读</a></li>
-                            <li className=""><a href="#default-tab-2" data-toggle="tab">已读</a></li>
+                            <li className="active" onClick={this.showUnread} ref="unread" ><a href="javascript:;" data-toggle="tab">未读</a></li>
+                            <li className="" onClick={this.showRead} ref="read" ><a href="javascript:;" data-toggle="tab">已读</a></li>
                         </ul>
                         <div className="tab-content">
-
-                            <div className="tab-pane fade active in" id="default-tab-1">
-                                {messageListEle}
+                            <div className="tab-pane active in" ref="unread_content" >
+                                {unreadMessageListEle}
                             </div>
-                            <div className="tab-pane fade" id="default-tab-2">
-                                <blockquote>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                    <small>Someone famous in <cite title="Source Title">Source Title</cite></small>
-                                </blockquote>
-                                <h4>Lorem ipsum dolor sit amet</h4>
-                                <p>
-                                    Nullam ac sapien justo. Nam augue mauris, malesuada non magna sed, feugiat blandit ligula. 
-                                    In tristique tincidunt purus id iaculis. Pellentesque volutpat tortor a mauris convallis, 
-                                    sit amet scelerisque lectus adipiscing.
-                                </p>
-                            </div>
-                            <div className="tab-pane fade" id="default-tab-3">
-                                <p>
-                                    <span className="fa-stack fa-4x pull-left m-r-10">
-                                        <i className="fa fa-square-o fa-stack-2x"></i>
-                                        <i className="fa fa-twitter fa-stack-1x"></i>
-                                    </span>
-                                    Praesent tincidunt nulla ut elit vestibulum viverra. Sed placerat magna eget eros accumsan elementum. 
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam quis lobortis neque. 
-                                    Maecenas justo odio, bibendum fringilla quam nec, commodo rutrum quam. 
-                                    Donec cursus erat in lacus congue sodales. Nunc bibendum id augue sit amet placerat. 
-                                    Quisque et quam id felis tempus volutpat at at diam. Vivamus ac diam turpis.Sed at lacinia augue. 
-                                    Nulla facilisi. Fusce at erat suscipit, dapibus elit quis, luctus nulla. 
-                                    Quisque adipiscing dui nec orci fermentum blandit.
-                                    Sed at lacinia augue. Nulla facilisi. Fusce at erat suscipit, dapibus elit quis, luctus nulla. 
-                                    Quisque adipiscing dui nec orci fermentum blandit.
-                                </p>
+                            <div className="tab-pane" ref="read_content">
+                                {readMessageListEle}
                             </div>
                         </div>
 					</div>
@@ -119,7 +146,8 @@ const LecturerMessageContent = React.createClass({
     },
 
     componentDidMount () {
-        this.getMessageList();
+        this.getUnreadMessageList();
+        this.getReadMessageList();
     }
 });
 

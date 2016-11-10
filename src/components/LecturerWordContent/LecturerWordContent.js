@@ -45,7 +45,7 @@ const LecturerWordContent = React.createClass({
     },
 
     renderTextLiveList () {
-        let textLiveListEle = this.state.textLiveList.map((item, index) => {
+        let textLiveListEle = this.state.textLiveList && this.state.textLiveList.map((item, index) => {
             let ctime = moment(item.create_time).format('HH:mm');
             return (
                 <div className="alert alert-success" key={'l-wordcontent-' + index}>
@@ -58,7 +58,17 @@ const LecturerWordContent = React.createClass({
             );
         });
 
-        return textLiveListEle.reverse();
+        if (!textLiveListEle || textLiveListEle.length === 0) {
+            textLiveListEle = [].push(
+                <p>暂时没有数据</p>
+            );
+        }
+
+        if (textLiveListEle.length > 1) {
+            textLiveListEle = textLiveListEle.reverse();
+        }
+
+        return textLiveListEle;
     },
 
     /**

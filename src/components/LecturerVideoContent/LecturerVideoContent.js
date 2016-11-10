@@ -88,9 +88,13 @@ const LecturerVideoContent = React.createClass({
         });
 
         if (!listEle || listEle.length === 0) {
-            listEle = (
-                <p>暂时没有数据</p>
+            listEle = [].push(
+                <p>暂时没有视频</p>
             );
+        }
+
+        if (listEle.length > 1) {
+            listEle = listEle.reverse();
         }
 
         return listEle;

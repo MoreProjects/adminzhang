@@ -9,6 +9,11 @@ const urlMap = {
     'userInfo': apiBaseUrl + '/user/info',
 
     /**
+     * 直播间信息统计
+     */
+    'liveStatistic': apiBaseUrl + '/live/statistics/visit-log',
+
+    /**
      * 文字直播
      */
     'textLiveList': apiBaseUrl + '/text-lives/{textRoomId}/texts',
@@ -25,6 +30,7 @@ const urlMap = {
      * 消息列表
      */
     'messageList': apiBaseUrl + '/user/notices',
+    'messageContent': apiBaseUrl + '/user/notices/{id}',
 
     /**
      * 拜徒管理
@@ -37,7 +43,14 @@ const urlMap = {
      */
     'recordingsList': apiBaseUrl + '/teacher/recordings',
     'coursesList': apiBaseUrl + '/teacher/courses',
-    'videoHighlightList': apiBaseUrl + '/teacher/video-highlights'
+    'videoHighlightList': apiBaseUrl + '/teacher/video-highlights',
+
+    /**
+     * 文章管理 
+     */
+    'articleList': apiBaseUrl + '/user/articles',
+    'postArticle': apiBaseUrl + '/user/articles',
+    'deleteArticle': apiBaseUrl + '/user/articles/{id}'
 };
 
 const ApiService = {
@@ -91,6 +104,20 @@ const ApiService = {
      */
     userInfo(requestConfig, callback) {
         const url = urlMap.userInfo;
+
+        return http.get(url, requestConfig.params).then(response => {
+            return callback(response);
+        });
+    },
+
+    /**
+     * [liveStatistic 获取直播间统计列表]
+     * @param  {[object]}   requestConfig [请求参数]
+     * @param  {Function} callback      [请求完成，回调函数]
+     * @return {[...]}                 [回调函数返回值]
+     */
+    liveStatistic(requestConfig, callback) {
+        const url = urlMap.liveStatistic;
 
         return http.get(url, requestConfig.params).then(response => {
             return callback(response);
@@ -186,6 +213,20 @@ const ApiService = {
     },
 
     /**
+     * [messageContent 获取消息正文内容]
+     * @param  {[object]}   requestConfig [请求参数]
+     * @param  {Function} callback      [请求完成，回调函数]
+     * @return {[...]}                 [回调函数返回值]
+     */
+    messageContent(requestConfig, callback) {
+        const url = urlMap.messageContent;
+
+        return http.get(url, requestConfig.params).then(response => {
+            return callback(response);
+        });
+    },
+
+    /**
      * [followerList 获取师徒列表]
      * @param  {[object]}   requestConfig [请求参数]
      * @param  {Function} callback      [请求完成，回调函数]
@@ -252,6 +293,49 @@ const ApiService = {
         const url = urlMap.videoHighlightList;
 
         return http.get(url, requestConfig.params).then(response => {
+            return callback(response);
+        });
+    },
+
+    /**
+     * [articleList 获取文章列表]
+     * @param  {[object]}   requestConfig [请求参数]
+     * @param  {Function} callback      [请求完成，回调函数]
+     * @return {[...]}                 [回调函数返回值]
+     */
+    articleList(requestConfig, callback) {
+        const url = urlMap.articleList;
+
+        return http.get(url, requestConfig.params).then(response => {
+            return callback(response);
+        });
+    },
+
+    /**
+     * [postArticle 发表文章]
+     * @param  {[object]}   requestConfig [请求参数]
+     * @param  {Function} callback      [请求完成，回调函数]
+     * @return {[...]}                 [回调函数返回值]
+     */
+    postArticle(requestConfig, callback) {
+        const url = urlMap.postArticle;
+
+        return http.post(url, requestConfig.params).then(response => {
+            return callback(response);
+        });
+    },
+
+    /**
+     * [deleteArticle 删除文章]
+     * @param  {[string]}   articleId  [文章ID]
+     * @param  {[object]}   requestConfig [请求参数]
+     * @param  {Function} callback      [请求完成，回调函数]
+     * @return {[...]}                 [回调函数返回值]
+     */
+    deleteArticle(articleId, requestConfig, callback) {
+        const url = urlMap.deleteArticle.replace('{id}', articleId);
+
+        return http.delete(url, requestConfig.params).then(response => {
             return callback(response);
         });
     }
