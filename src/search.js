@@ -11,6 +11,7 @@ import LecturerTargetApp from './components/LecturerTargetApp';
 import LecturerMessageApp from './components/LecturerMessageApp';
 import LecturerArticlesApp from './components/LecturerArticlesApp';
 import LecturerCourseApp from './components/LecturerCourseApp';
+import LecturerHighlightApp from './components/LecturerHighlightApp';
 import ajax from './api/ApiService';
 
 /**
@@ -74,6 +75,7 @@ function bootstrap() {
                 <Route path="/message" component={LecturerMessageApp} />
                 <Route path="/articles" component={LecturerArticlesApp} />
                 <Route path="/course" component={LecturerCourseApp} />
+                <Route path="/highlight" component={LecturerHighlightApp} />
             </Route>
         </Router>), document.getElementById('react_container')
     );

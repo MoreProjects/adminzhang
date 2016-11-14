@@ -1,0 +1,6 @@
+{
+    "name": "LecturerHighlightContent",
+    "version": "1.0.0",
+    "private": true,
+    "main": "./LecturerHighlightContent.js"
+}

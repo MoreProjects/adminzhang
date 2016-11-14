@@ -52,12 +52,19 @@ const HttpClient = {
             });
     }),
 
-    postWithFile: (file, desc, path, requestConfig) => new Promise((resolve, reject) => {
+    postWithFile: (file, form, path, requestConfig) => new Promise((resolve, reject) => {
+        let r = 
+
         request
             .post(path)
             .use(noCache)
-            .withCredentials()
-            .field(desc.name, desc.value)
+            .withCredentials();
+
+        form && form.forEach((item, index) => {
+            r = r.field(item.name, item.value);
+        });
+
+        r
             .attach(file.name, file.value, file.filename)
             .set('Authorization', 'MTA2NDc1NDE2OSBlMjdjZTI4YWU3NmQ0ZjY2YTYyMjdkNjk0MWY4OWEwMjJhODAyZTEyM2QxODRjNTFhYWQ4MDc4ODYyYTA4ZWU5')
             .set('CZD-Client', 'Android_10647541611610')

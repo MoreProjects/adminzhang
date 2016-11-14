@@ -42,7 +42,11 @@ const urlMap = {
      * 视频管理
      */
     'recordingsList': apiBaseUrl + '/teacher/recordings',
+    'deleteRecording': apiBaseUrl + '/teacher/recordings/{recordingId}',
+
     'coursesList': apiBaseUrl + '/teacher/courses',
+    'postCourse': apiBaseUrl + '/teacher/courses',
+
     'videoHighlightList': apiBaseUrl + '/teacher/video-highlights',
 
     /**
@@ -270,6 +274,21 @@ const ApiService = {
     },
 
     /**
+     * [deleteRecording 删除历史录播]
+     * @param  {[string]}   recordingId  [历史录播ID]
+     * @param  {[object]}   requestConfig [请求参数]
+     * @param  {Function} callback      [请求完成，回调函数]
+     * @return {[...]}                 [回调函数返回值]
+     */
+    deleteRecording(recordingId, requestConfig, callback) {
+        const url = urlMap.deleteRecording.replace('{recordingId}', recordingId);
+
+        return http.delete(url, requestConfig.params).then(response => {
+            return callback(response);
+        });
+    },
+
+    /**
      * [coursesList 获取公开课列表]
      * @param  {[object]}   requestConfig [请求参数]
      * @param  {Function} callback      [请求完成，回调函数]
@@ -279,6 +298,21 @@ const ApiService = {
         const url = urlMap.coursesList;
 
         return http.get(url, requestConfig.params).then(response => {
+            return callback(response);
+        });
+    },
+
+    /**
+     * [postCourse 上传课程]
+     * @param  {[object]}   file  [上传附件信息]
+     * @param  {[object]}   requestConfig [请求参数]
+     * @param  {Function} callback      [请求完成，回调函数]
+     * @return {[...]}                 [回调函数返回值]
+     */
+    postCourse(file, form, requestConfig, callback) {
+        const url = urlMap.postCourse;
+
+        return http.postWithFile(file, form, url, requestConfig.params).then(response => {
             return callback(response);
         });
     },

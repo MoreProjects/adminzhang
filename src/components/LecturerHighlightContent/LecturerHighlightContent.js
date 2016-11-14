@@ -1,10 +1,10 @@
 import React from 'react';
-import './LecturerVideoContent.less';
+import './LecturerHighlightContent.less';
 
 import ajax from '../../api/ApiService';
 import LecturerProfile from '../LecturerProfile';
 
-const LecturerVideoContent = React.createClass({
+const LecturerHighlightContent = React.createClass({
     getInitialState() {
         return {
             recordingsList: [],
@@ -133,6 +133,8 @@ const LecturerVideoContent = React.createClass({
      */
     render () {
         let recordingsListEle = this.renderList(this.state.recordingsList, this.deleteRecording);
+        let coursesListEle = this.renderList(this.state.coursesList);
+        let videoHighlightListEle = this.renderList(this.state.videoHighlightList);
 
         return (
             <div id="content" className="l-videocontent content">
@@ -144,48 +146,24 @@ const LecturerVideoContent = React.createClass({
                     <div>&nbsp;</div>
                     <div className="panel-body">
                         {recordingsListEle}
-                        <form className="form-horizontal" encType="multipart/form-data" ref="courseform">
-                            <div className="form-group upload-image profile-left">
-                                <div className="profile-image" ref="showuploadimage" style={{background: 'url(' + this.state.background + ') no-repeat center center / cover'}} ></div>
-                                <div className="m-b-10">
-                                    <span className="btn btn-success fileinput-button">
-                                        <span>&nbsp;上传录播封面</span>
-                                        <input type="file" name="file" ref="uploadimage" accept="image/*" onChange={this.changeUploadImage} />
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div className="form-group common-info common-info-title">
-                                <label className="col-md-1 control-label">录播标题：</label>
-                                <div className="col-md-9">
-                                    <input type="text" className="form-control" placeholder="请输入录播标题" rows="5" ref="coursetitle" />
-                                </div>
-                            </div>   
-
-                            <div className="form-group common-info common-info-desc">
-                                <label className="col-md-1 control-label">录播描述：</label>
-                                <div className="col-md-9">
-                                    <textarea className="form-control" placeholder="请输入录播描述" rows="5" ref="coursedesc"></textarea>
-                                </div>
-                            </div>                   
-
-                            <div className="form-group">
-                                <label className="col-md-2 control-label">录播地址URL:</label>
-                                <div className="col-md-8">
-                                    <input type="text" className="form-control" placeholder="请输入录播地址" rows="5" ref="courseurl" name="url" />
-                                </div>
-                            </div>
-
-                            <div className="form-group dispath-course">
-                                <label className="col-md-2 control-label">&nbsp;</label>
-                                <div className="col-md-5">
-                                    <div onClick={this.sendNewCourse} className="btn btn-sm btn-success p-l-20 p-r-20">发布</div>
-                                </div>
-                                <div className="col-md-5">
-                                    <div onClick="javascript:;" className="btn btn-sm btn-success p-l-20 p-r-20">删除</div>
-                                </div>
-                            </div>
-                        </form>
+                    </div>
+                </div>
+                <div className="panel panel-success" data-sortable-id="ui-widget-12">
+                    <div className="panel-heading">
+                        <h4 className="panel-title">公开课</h4>
+                    </div>
+                    <div>&nbsp;</div>
+                    <div className="panel-body">
+                        {coursesListEle}
+                    </div>
+                </div>
+                <div className="panel panel-success" data-sortable-id="ui-widget-12">
+                    <div className="panel-heading">
+                        <h4 className="panel-title">视频集锦</h4>
+                    </div>
+                    <div>&nbsp;</div>
+                    <div className="panel-body">
+                        {videoHighlightListEle}
                     </div>
                 </div>
             </div>
@@ -194,7 +172,9 @@ const LecturerVideoContent = React.createClass({
 
     componentDidMount () {
         this.getRecordingsList();
+        this.getCoursesList();
+        this.getVideoHighlightList();
     }
 });
 
-export default LecturerVideoContent;
+export default LecturerHighlightContent;
