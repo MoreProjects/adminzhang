@@ -46,6 +46,7 @@ const urlMap = {
 
     'coursesList': apiBaseUrl + '/teacher/courses',
     'postCourse': apiBaseUrl + '/teacher/courses',
+    'deleteCourse': apiBaseUrl + '/teacher/courses/{courseId}',
 
     'videoHighlightList': apiBaseUrl + '/teacher/video-highlights',
 
@@ -313,6 +314,21 @@ const ApiService = {
         const url = urlMap.postCourse;
 
         return http.postWithFile(file, form, url, requestConfig.params).then(response => {
+            return callback(response);
+        });
+    },
+
+    /**
+     * [deleteCourse 删除课程]
+     * @param  {[string]}   courseId  [课程ID]
+     * @param  {[object]}   requestConfig [请求参数]
+     * @param  {Function} callback      [请求完成，回调函数]
+     * @return {[...]}                 [回调函数返回值]
+     */
+    deleteCourse(courseId, requestConfig, callback) {
+        const url = urlMap.deleteCourse.replace('{courseId}', courseId);
+
+        return http.delete(url, requestConfig.params).then(response => {
             return callback(response);
         });
     },

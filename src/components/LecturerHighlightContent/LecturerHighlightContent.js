@@ -2,7 +2,6 @@ import React from 'react';
 import './LecturerHighlightContent.less';
 
 import ajax from '../../api/ApiService';
-import LecturerProfile from '../LecturerProfile';
 
 const LecturerHighlightContent = React.createClass({
     getInitialState() {
@@ -12,46 +11,6 @@ const LecturerHighlightContent = React.createClass({
             videoHighlightList: []
         };
      },
-
-    /**
-     * 获取历史录播列表
-     */
-    getRecordingsList () {
-        const _self = this;
-
-        ajax.recordingsList({
-            params: {
-                page: 1,
-                page_size: 5
-            }
-        }, (responseData) => {
-            if (responseData) {
-                _self.setState({
-                    recordingsList: responseData.list
-                });
-            }
-        });
-    },
-
-    /**
-     * 获取公开课列表
-     */
-    getCoursesList () {
-        const _self = this;
-
-        ajax.coursesList({
-            params: {
-                page: 1,
-                page_size: 5
-            }
-        }, (responseData) => {
-            if (responseData) {
-                _self.setState({
-                    coursesList: responseData.list
-                });
-            }
-        });
-    },
 
     /**
      * 获取视频集锦列表
@@ -74,7 +33,7 @@ const LecturerHighlightContent = React.createClass({
     },
 
     /**
-     * 删除历史录播
+     * 删除历史集锦
      */
     deleteRecording (event) {
         const _self = this;
@@ -95,27 +54,54 @@ const LecturerHighlightContent = React.createClass({
     },
 
     /**
-     * 渲染列表 包括 视频集锦 公开课 历史录播
+     * 渲染列表 包括 视频集锦 公开课 历史集锦
      * 
      * @param {any} list
      * @returns
      */
-    renderList (list, callback) {
+    renderList (list) {
         let listEle = list && list.map((item, index) => {
             return (
-                <div className="alert alert-success" key={'l-vodeocontent-' + index}>
-                    <div className="invoice-company text-inverse">
-                        <span className="pull-right hidden-print">
-                            <a href="javascript:;" onClick={callback || 'javascript:;'} className="btn btn-primary btn-sm btn-primary p-l-20 p-r-20" data-tid={item.id} > 删除 </a>
-                        </span>
-                        <div>{item.name} <a href="javascript:;" target="_blank" className="pull-right l-targetcontent-file" >{item.description}</a></div>
+                <form className="form-horizontal" encType="multipart/form-data" ref="courseform" key={'l-vodeocontent-' + index}>
+                    <div className="form-group upload-image profile-left">
+                        <img className="profile-image" src={item.cover_img} />
+                        <div className="m-b-10"> </div>
                     </div>
-                </div>
+
+                    <div className="form-group common-info common-info-title">
+                        <label className="col-md-1 control-label">集锦标题：</label>
+                        <div className="col-md-9">
+                            <input type="text" className="form-control" placeholder={item.name} rows="5" ref="coursetitle" />
+                        </div>
+                    </div>   
+
+                    <div className="form-group common-info common-info-desc">
+                        <label className="col-md-1 control-label">集锦描述：</label>
+                        <div className="col-md-9">
+                            <textarea className="form-control" placeholder={item.description} rows="5" ref="coursedesc"></textarea>
+                        </div>
+                    </div>                   
+
+                    <div className="form-group common-info">
+                        <label className="col-md-1 control-label">集锦地址URL:</label>
+                        <div className="col-md-9">
+                            <input type="text" className="form-control" placeholder="请输入集锦地址" rows="5" ref="courseurl" name="url" />
+                        </div>
+                    </div>
+
+                    <div className="form-group dispath-course common-info">
+                        <label className="col-md-1 control-label">&nbsp;</label>
+                        <div className="col-md-9 text-right">
+                            <div onClick={this.deleteRecording} data-tid={item.id} className="btn btn-sm btn-success p-l-20 p-r-20">删除</div>
+                        </div>
+                    </div>
+                </form>
             );
         });
 
         if (!listEle || listEle.length === 0) {
-            listEle = [].push(
+            listEle = [];
+            listEle.push(
                 <p>暂时没有视频</p>
             );
         }
@@ -132,38 +118,27 @@ const LecturerHighlightContent = React.createClass({
      * @returns
      */
     render () {
-        let recordingsListEle = this.renderList(this.state.recordingsList, this.deleteRecording);
-        let coursesListEle = this.renderList(this.state.coursesList);
         let videoHighlightListEle = this.renderList(this.state.videoHighlightList);
 
         return (
-            <div id="content" className="l-videocontent content">
-                <LecturerProfile />
+            <div id="content" className="l-videocontent content">              
                 <div className="panel panel-success" data-sortable-id="ui-widget-12">
                     <div className="panel-heading">
-                        <h4 className="panel-title">历史录播</h4>
-                    </div>
-                    <div>&nbsp;</div>
-                    <div className="panel-body">
-                        {recordingsListEle}
-                    </div>
-                </div>
-                <div className="panel panel-success" data-sortable-id="ui-widget-12">
-                    <div className="panel-heading">
-                        <h4 className="panel-title">公开课</h4>
-                    </div>
-                    <div>&nbsp;</div>
-                    <div className="panel-body">
-                        {coursesListEle}
-                    </div>
-                </div>
-                <div className="panel panel-success" data-sortable-id="ui-widget-12">
-                    <div className="panel-heading">
-                        <h4 className="panel-title">视频集锦</h4>
+                        <h4 className="panel-title">发布集锦</h4>
                     </div>
                     <div>&nbsp;</div>
                     <div className="panel-body">
                         {videoHighlightListEle}
+
+                        <div className="form-group">
+                            <label className="col-md-5 control-label">&nbsp;</label>
+                            <div className="col-md-7">
+                                <div onClick={this.addNewCourseURL} className="btn btn-sm btn-success p-l-20 p-r-20">
+                                    <i className="fa fa-plus"></i>
+                                    &nbsp;增加一个集锦
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -171,8 +146,6 @@ const LecturerHighlightContent = React.createClass({
     },
 
     componentDidMount () {
-        this.getRecordingsList();
-        this.getCoursesList();
         this.getVideoHighlightList();
     }
 });

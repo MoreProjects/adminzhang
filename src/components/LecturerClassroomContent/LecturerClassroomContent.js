@@ -37,7 +37,7 @@ const LecturerClassroomContent = React.createClass({
      */
     renderLiveStatistic () {
         let liveStatisticList = this.state.liveStatisticList && this.state.liveStatisticList.map((item, index) => {
-            let startTime = moment(item.enter_time).format('HH:mm');
+            let startTime = moment(item.enter_time).format('YYYY-MM-DD HH:mm');
 
             let d = moment.duration(item.last_seconds, 'second');
             let formatStr = '';
@@ -88,19 +88,21 @@ const LecturerClassroomContent = React.createClass({
 
         return (
             //<!-- begin #content -->
-            <div id="content" className="content">
+            <div id="content" className="content l-classroomcontent">
                 <LecturerProfile />
-                <div className="panel-body">
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>用户昵称</th><th>进入房间时间</th><th>停留时长</th><th>是否实名注册</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {liveStatisticList}
-                        </tbody>
-                    </table>
+                <div className="panel panel-success" data-sortable-id="ui-widget-12">
+                    <div className="panel-body">
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                    <th>用户昵称</th><th>进入房间时间</th><th>停留时长</th><th>是否实名注册</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {liveStatisticList}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 		    //<!-- end #content -->

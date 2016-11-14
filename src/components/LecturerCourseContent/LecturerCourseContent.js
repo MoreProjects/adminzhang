@@ -145,12 +145,26 @@ const LecturerCourseContent = React.createClass({
     },
 
     /**
-     * 删除课程 URL
+     * 删除课程
      * 
      * @returns
      */
-    deleteCourse () {
+    deleteCourse (event) {
+        const _self = this;
+        let courseId = event.target.getAttribute('data-cid') || '';
 
+        if (!courseId) {
+            return false;
+        }
+
+        ajax.deleteCourse(courseId, {
+            params: {
+            }
+        }, (responseData) => {
+            if (responseData) {
+                _self.getCoursesList();
+            }
+        });
     },
 
     /**
@@ -191,7 +205,7 @@ const LecturerCourseContent = React.createClass({
                         <p>{item.description}</p>
                     </div>
                     <div className="media-right">
-                            <a href="javascript:;" onClick={this.deleteCourse} data-fid={item.id} className="btn btn-primary btn-sm m-r-10 m-t-20 p-l-20 p-r-20"> 删除 </a>
+                            <a href="javascript:;" onClick={this.deleteCourse} data-cid={item.id} className="btn btn-primary btn-sm m-r-10 m-t-20 p-l-20 p-r-20"> 删除 </a>
                       
                     </div>
                 </div>
@@ -258,7 +272,7 @@ const LecturerCourseContent = React.createClass({
                                 <div className="col-md-8">
                                     <div onClick={this.addNewCourseURL} className="btn btn-sm btn-success p-l-20 p-r-20">
                                         <i className="fa fa-plus"></i>
-                                        为该课程增加一个集锦
+                                        &nbsp;为该课程增加一个视频
                                     </div>
                                 </div>
                             </div>

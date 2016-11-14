@@ -34,26 +34,6 @@ const LecturerVideoContent = React.createClass({
     },
 
     /**
-     * 获取公开课列表
-     */
-    getCoursesList () {
-        const _self = this;
-
-        ajax.coursesList({
-            params: {
-                page: 1,
-                page_size: 5
-            }
-        }, (responseData) => {
-            if (responseData) {
-                _self.setState({
-                    coursesList: responseData.list
-                });
-            }
-        });
-    },
-
-    /**
      * 获取视频集锦列表
      */
     getVideoHighlightList () {
@@ -103,14 +83,40 @@ const LecturerVideoContent = React.createClass({
     renderList (list, callback) {
         let listEle = list && list.map((item, index) => {
             return (
-                <div className="alert alert-success" key={'l-vodeocontent-' + index}>
-                    <div className="invoice-company text-inverse">
-                        <span className="pull-right hidden-print">
-                            <a href="javascript:;" onClick={callback || 'javascript:;'} className="btn btn-primary btn-sm btn-primary p-l-20 p-r-20" data-tid={item.id} > 删除 </a>
-                        </span>
-                        <div>{item.name} <a href="javascript:;" target="_blank" className="pull-right l-targetcontent-file" >{item.description}</a></div>
+                <form className="form-horizontal" encType="multipart/form-data" ref="courseform" key={'l-vodeocontent-' + index}>
+                    <div className="form-group upload-image profile-left">
+                        <img className="profile-image" src={item.cover_img} />
+                        <div className="m-b-10"> </div>
                     </div>
-                </div>
+
+                    <div className="form-group common-info common-info-title">
+                        <label className="col-md-1 control-label">录播标题：</label>
+                        <div className="col-md-9">
+                            <input type="text" className="form-control" placeholder={item.name} rows="5" ref="coursetitle" />
+                        </div>
+                    </div>   
+
+                    <div className="form-group common-info common-info-desc">
+                        <label className="col-md-1 control-label">录播描述：</label>
+                        <div className="col-md-9">
+                            <textarea className="form-control" placeholder={item.description} rows="5" ref="coursedesc"></textarea>
+                        </div>
+                    </div>                   
+
+                    <div className="form-group common-info">
+                        <label className="col-md-1 control-label">录播地址URL:</label>
+                        <div className="col-md-9">
+                            <input type="text" className="form-control" placeholder="请输入录播地址" rows="5" ref="courseurl" name="url" />
+                        </div>
+                    </div>
+
+                    <div className="form-group dispath-course common-info">
+                        <label className="col-md-1 control-label">&nbsp;</label>
+                        <div className="col-md-9 text-right">
+                            <div onClick={this.deleteRecording} data-tid={item.id} className="btn btn-sm btn-success p-l-20 p-r-20">删除</div>
+                        </div>
+                    </div>
+                </form>
             );
         });
 
@@ -132,7 +138,7 @@ const LecturerVideoContent = React.createClass({
      * @returns
      */
     render () {
-        let recordingsListEle = this.renderList(this.state.recordingsList, this.deleteRecording);
+        let recordingsListEle = this.renderList(this.state.recordingsList);
 
         return (
             <div id="content" className="l-videocontent content">
@@ -144,48 +150,6 @@ const LecturerVideoContent = React.createClass({
                     <div>&nbsp;</div>
                     <div className="panel-body">
                         {recordingsListEle}
-                        <form className="form-horizontal" encType="multipart/form-data" ref="courseform">
-                            <div className="form-group upload-image profile-left">
-                                <div className="profile-image" ref="showuploadimage" style={{background: 'url(' + this.state.background + ') no-repeat center center / cover'}} ></div>
-                                <div className="m-b-10">
-                                    <span className="btn btn-success fileinput-button">
-                                        <span>&nbsp;上传录播封面</span>
-                                        <input type="file" name="file" ref="uploadimage" accept="image/*" onChange={this.changeUploadImage} />
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div className="form-group common-info common-info-title">
-                                <label className="col-md-1 control-label">录播标题：</label>
-                                <div className="col-md-9">
-                                    <input type="text" className="form-control" placeholder="请输入录播标题" rows="5" ref="coursetitle" />
-                                </div>
-                            </div>   
-
-                            <div className="form-group common-info common-info-desc">
-                                <label className="col-md-1 control-label">录播描述：</label>
-                                <div className="col-md-9">
-                                    <textarea className="form-control" placeholder="请输入录播描述" rows="5" ref="coursedesc"></textarea>
-                                </div>
-                            </div>                   
-
-                            <div className="form-group">
-                                <label className="col-md-2 control-label">录播地址URL:</label>
-                                <div className="col-md-8">
-                                    <input type="text" className="form-control" placeholder="请输入录播地址" rows="5" ref="courseurl" name="url" />
-                                </div>
-                            </div>
-
-                            <div className="form-group dispath-course">
-                                <label className="col-md-2 control-label">&nbsp;</label>
-                                <div className="col-md-5">
-                                    <div onClick={this.sendNewCourse} className="btn btn-sm btn-success p-l-20 p-r-20">发布</div>
-                                </div>
-                                <div className="col-md-5">
-                                    <div onClick="javascript:;" className="btn btn-sm btn-success p-l-20 p-r-20">删除</div>
-                                </div>
-                            </div>
-                        </form>
                     </div>
                 </div>
             </div>
