@@ -45,7 +45,8 @@ function fetch() {
                 classroomID: responseData.id,
                 classroomName: responseData.room_name,
                 followerNum: responseData.following,
-                userImage: responseData.portrait_url
+                userImage: responseData.portrait_url,
+                wordRoomId: (responseData.text_room && responseData.text_room.id) || ''
             };
 
             for (let key in window.onGetUserInfo) {

@@ -31,10 +31,51 @@ visit our sponsors:
 ├── /src/                       # The source code of the application
 │   ├── /actions/               # Action creators that allow to trigger a dispatch to stores
 │   ├── /api/                   # REST API / Relay endpoints
+|   │   ├── /ApiConfig                      # API配置，前缀等
+|   │   ├── /ApiService                     # 所有的HTTP请求配置
+|   │   ├── /HttpClient                     # 基于superagent的模块
 │   ├── /components/            # React components
+|   ├── ├── /LecturerApp/                   # 废弃模块
+|   ├── ├── /LecturerContainer/             # 废弃模块
+|   │   ├── /LecturerArticlesApp            # 文章管理模块
+|   │   ├── /LecturerArticlesContainer      # 文章管理模块
+|   │   ├── /LecturerArticlesContent        # 文章管理模块
+|   │   ├── /LecturerClassroomApp           # 房间管理模块
+|   │   ├── /LecturerClassroomContainer     # 房间管理模块
+|   │   ├── /LecturerClassroomContent       # 房间管理模块
+|   │   ├── /LecturerCommonHeader           # 通用模块 -- Header
+|   │   ├── /LecturerClassroomApp           # 房间管理模块
+|   │   ├── /LecturerClassroomContainer     # 房间管理模块
+|   │   ├── /LecturerClassroomContent       # 房间管理模块
+|   │   ├── /LecturerCourseApp              # 课程管理模块
+|   │   ├── /LecturerCourseContainer        # 课程管理模块
+|   │   ├── /LecturerCourseContent          # 课程管理模块
+|   │   ├── /LecturerFollowerApp            # 徒弟管理模块
+|   │   ├── /LecturerFollowerContainer      # 徒弟管理模块
+|   │   ├── /LecturerFollowerContent        # 徒弟管理模块
+|   │   ├── /LecturerHighlightApp           # 集锦管理模块
+|   │   ├── /LecturerHighlightContainer     # 集锦管理模块
+|   │   ├── /LecturerHighlightContent       # 集锦管理模块
+|   │   ├── /LecturerMessageApp             # 消息管理模块
+|   │   ├── /LecturerMessageContainer       # 消息管理模块
+|   │   ├── /LecturerMessageContent         # 消息管理模块
+|   │   ├── /LecturerProfile                # 通用模块 -- 个人房间信息模块
+|   │   ├── /LecturerSidebar                # 通用模块 -- 菜单栏模块
+|   │   ├── /LecturerSidebarItem            # 通用模块 -- 菜单项模块
+|   │   ├── /LecturerTargetApp              # 指标管理模块
+|   │   ├── /LecturerTargetContainer        # 指标管理模块
+|   │   ├── /LecturerTargetContent          # 指标管理模块
+|   │   ├── /LecturerVideoApp               # 录播管理模块
+|   │   ├── /LecturerVideoContainer         # 录播管理模块
+|   │   ├── /LecturerVideoContent           # 录播管理模块
+|   │   ├── /LecturerWordApp                # 文字管理模块
+|   │   ├── /LecturerWordContainer          # 文字管理模块
+|   │   ├── /LecturerWordContent            # 文字管理模块
 │   ├── /constants/             # Constants (action types etc.)
 │   ├── /content/               # Static content (plain HTML or Markdown, Jade, you name it)
 │   ├── /core/                  # Core framework and utility functions
+|   │   ├── /DomUtils                       # DOM的工具
+|   │   ├── /Util.js                        # 通用工具模块
 │   ├── /decorators/            # Higher-order React components
 │   ├── /public/                # Static files which are copied into the /build/public folder
 │   ├── /stores/                # Stores contain the application state and logic

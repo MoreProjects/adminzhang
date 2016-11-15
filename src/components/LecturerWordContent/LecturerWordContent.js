@@ -13,13 +13,15 @@ const LecturerWordContent = React.createClass({
         };
      },
 
+     wordRoomId: '',
+
      /**
       * 获取文字直播列表
       */
     getTextLiveList () {
         const _self = this;
 
-        ajax.textLiveList('ctr34475696', {
+        ajax.textLiveList(this.wordRoomId, {
             params: {}
         }, (responseData) => {
             if (responseData && responseData.list) {
@@ -41,7 +43,7 @@ const LecturerWordContent = React.createClass({
             return;
         }
 
-        ajax.postText('ctr34475696', {
+        ajax.postText(this.wordRoomId, {
             params: {
                 content: word
             }
@@ -65,7 +67,7 @@ const LecturerWordContent = React.createClass({
                 <div className="alert alert-success" key={'l-wordcontent-' + index}>
                     <div className="invoice-company text-inverse">
                         <span className="pull-right hidden-print"></span>
-                        <div>{ctime} <a href="javascript:;" target="_blank" className="pull-right l-wordcontent-file" >{item.content}</a></div>
+                        <div className="text-center">{ctime} <a href="javascript:;" target="_blank" className="pull-right l-wordcontent-file text-left" >{item.content}</a></div>
                     </div>
                 </div>
             );
@@ -122,7 +124,14 @@ const LecturerWordContent = React.createClass({
     },
 
     componentDidMount () {
-        this.getTextLiveList();
+        const _self = this;
+
+        window.registerToGetUserInfo('l_wordcontent', function () {
+            if (window.globalUserInfo && window.globalUserInfo.wordRoomId) {
+                _self.wordRoomId = window.globalUserInfo.wordRoomId;            
+                _self.getTextLiveList();
+            }
+        });
     }
 });
 
