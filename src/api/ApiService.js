@@ -180,10 +180,10 @@ const ApiService = {
      * @param  {Function} callback      [请求完成，回调函数]
      * @return {[...]}                 [回调函数返回值]
      */
-    postTarget(file, desc, requestConfig, callback) {
+    postTarget(file, field, requestConfig, callback) {
         const url = urlMap.postTarget;
 
-        return http.postWithFile(file, desc, url, requestConfig.params).then(response => {
+        return http.postWithFile(file, field, url, requestConfig.params).then(response => {
             return callback(response);
         });
     },
@@ -219,12 +219,13 @@ const ApiService = {
 
     /**
      * [messageContent 获取消息正文内容]
+     * @param  {[string]}   messageId  [消息 id] 
      * @param  {[object]}   requestConfig [请求参数]
      * @param  {Function} callback      [请求完成，回调函数]
      * @return {[...]}                 [回调函数返回值]
      */
-    messageContent(requestConfig, callback) {
-        const url = urlMap.messageContent;
+    messageContent(messageId, requestConfig, callback) {
+        const url = urlMap.messageContent.replace('{id}', messageId);
 
         return http.get(url, requestConfig.params).then(response => {
             return callback(response);

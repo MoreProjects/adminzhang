@@ -19,10 +19,10 @@ const LecturerClassroomContent = React.createClass({
         ajax.liveStatistic({
             params: {
                 page: 1,
-                page_size: 20
+                page_size: 10
             }
         }, (responseData) => {
-            if (responseData) {
+            if (responseData && responseData.list) {
                 _self.setState({
                     liveStatisticList: responseData.list
                 });
@@ -65,7 +65,8 @@ const LecturerClassroomContent = React.createClass({
         });
 
         if (!liveStatisticList || liveStatisticList.length === 0) {
-            liveStatisticList = [].push(
+            liveStatisticList = [];
+            liveStatisticList.push(
                 <tr>
                     <td colspan="4">暂时没有直播间统计信息</td>
                 </tr>

@@ -15,7 +15,7 @@ const LecturerCourseContent = React.createClass({
      },
 
      /**
-      * 获取获取课程列表
+      * 获取课程列表
       */
     getCoursesList () {
         const _self = this;
@@ -23,10 +23,10 @@ const LecturerCourseContent = React.createClass({
         ajax.coursesList({
             params: {
                 page: 1,
-                page_size: 20
+                page_size: 5
             }
         }, (responseData) => {
-            if (responseData) {
+            if (responseData && responseData.list) {
                  _self.setState({
                     coursesList: responseData.list
                 });
@@ -109,13 +109,9 @@ const LecturerCourseContent = React.createClass({
             if (window.FileReader) {
                 // size 单位是 字节（b）
                 if (f.size > 5 * 1024 * 1024) {
-                    //$('.logo-t', _t.$el).addClass('error-tips');
-                    //$('.logo-i', _t.$el).css('backgroundImage', 'url(' + defaultImgSrc + ')');
-                    //_t.hasFile = false;
-                    // 发现文件错误后，停止回显
                     return;
                 } else {
-                    //$('.logo-t', _t.$el).removeClass('error-tips');
+                    
                 }
 
                 var reader = new FileReader();
@@ -168,7 +164,7 @@ const LecturerCourseContent = React.createClass({
     },
 
     /**
-     * 渲染课程集锦url部分
+     * 渲染课程url部分
      * 
      * @returns
      */
@@ -178,11 +174,15 @@ const LecturerCourseContent = React.createClass({
                 <div className="form-group" key={'l-courseurl-' + index}>
                     <label className="col-md-2 control-label">{('0' + index).substr(0, 2)} 课程地址URL:</label>
                     <div className="col-md-8">
-                        <input type="text" className="form-control" placeholder="请输入课程地址" rows="5" ref="courseurl" name="url" />
+                        <input type="text" className="form-control" placeholder="请输入课程地址" name="url" />
                     </div>
                 </div>
             );
         });
+
+        if (ele.length > 1) {
+            ele = ele.reverse();
+        }
 
         return ele;        
     },
@@ -194,7 +194,6 @@ const LecturerCourseContent = React.createClass({
      */
     renderCourseList () {
         let courseListEle = this.state.coursesList && this.state.coursesList.map((item, index) => {
-            let ctime = moment(item.create_time).format('HH:mm');
             return (
                 <div className="media media-sm note note-success" key={'l-coursecontent-' + index} >
                     <a className="media-left" href="javascript:;">
@@ -205,16 +204,16 @@ const LecturerCourseContent = React.createClass({
                         <p>{item.description}</p>
                     </div>
                     <div className="media-right">
-                            <a href="javascript:;" onClick={this.deleteCourse} data-cid={item.id} className="btn btn-primary btn-sm m-r-10 m-t-20 p-l-20 p-r-20"> 删除 </a>
-                      
+                        <a href="javascript:;" onClick={this.deleteCourse} data-cid={item.id} className="btn btn-primary btn-sm m-r-10 m-t-20 p-l-20 p-r-20"> 删除 </a>
                     </div>
                 </div>
             );
         });
 
         if (!courseListEle || courseListEle.length === 0) {
-            courseListEle = [].push(
-                <p>暂时没有数据</p>
+            courseListEle = [];
+            courseListEle.push(
+                <p>暂时没有课程</p>
             );
         }
 
@@ -254,7 +253,7 @@ const LecturerCourseContent = React.createClass({
                             <div className="form-group common-info common-info-title">
                                 <label className="col-md-1 control-label">课程标题：</label>
                                 <div className="col-md-9">
-                                    <input type="text" className="form-control" placeholder="请输入课程标题" rows="5" ref="coursetitle" />
+                                    <input type="text" className="form-control" placeholder="请输入课程标题" ref="coursetitle" />
                                 </div>
                             </div>   
 

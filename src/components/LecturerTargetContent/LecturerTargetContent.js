@@ -20,10 +20,10 @@ const LecturerTargetContent = React.createClass({
         ajax.targetList({
             params: {
                 page: 1,
-                page_size: 20
+                page_size: 10
             }
         }, (responseData) => {
-            if (responseData) {
+            if (responseData && responseData.list) {
                 _self.setState({
                     targetList: responseData.list
                 });
@@ -44,12 +44,21 @@ const LecturerTargetContent = React.createClass({
             return;
         }
 
-        ajax.postTarget({name: 'file', value: file, filename: file.name}, {name: 'desc', value: this.refs.desc.value}, {
+        ajax.postTarget({name: 'file', value: file, filename: file.name}, [{name: 'desc', value: this.refs.desc.value}], {
             params: {
             }
         }, (responseData) => {
             if (responseData) {
+                this.refs.desc.value = '';
+                this.refs.input.value = '';
+
+                this.setState({
+                    filename: ''
+                });
+
                 _self.getTargetList();
+
+                window.alert('上传成功');
             }
         });
     },
@@ -70,7 +79,6 @@ const LecturerTargetContent = React.createClass({
 
         ajax.deleteTarget(targetId, {
             params: {
-
             }
         }, (responseData) => {
             if (responseData) {
@@ -85,13 +93,13 @@ const LecturerTargetContent = React.createClass({
      * @returns
      */
     changeUploadFile (event) {
-         let file = this.refs.input.files[0];
+        let file = this.refs.input.files[0];
 
-         if (file) {
-             this.setState({
+        if (file) {
+            this.setState({
                 filename: (file && file.name) || ''
             });
-         }
+        }
     },
 
     /**
@@ -105,7 +113,7 @@ const LecturerTargetContent = React.createClass({
                 <div className="alert alert-success" key={'l-targetcontent-' + index}>
                     <div className="invoice-company text-inverse">
                         <span className="pull-right hidden-print">
-                            <a href="javascript:;" onClick={this.deleteTarget} className="btn btn-primary btn-sm btn-primary p-l-20 p-r-20" data-tid={item.id} > 删除 </a>
+                            <a href="javascript:;" onClick={this.deleteTarget} className="btn btn-primary btn-sm p-l-20 p-r-20" data-tid={item.id} > 删除 </a>
                         </span>
                         <div>{item.desc} <a href={item.file_url} target="_blank" className="pull-right l-targetcontent-file" >{item.filename}</a></div>
                     </div>
@@ -114,8 +122,9 @@ const LecturerTargetContent = React.createClass({
         });
 
         if (!targetListEle || targetListEle.length === 0) {
-            targetListEle = [].push(
-                <p>暂时没有指标</p>
+            targetListEle = [];
+            targetListEle.push(
+                <p key={'l-targetcontent-0'}>暂时没有指标</p>
             );
         }
 

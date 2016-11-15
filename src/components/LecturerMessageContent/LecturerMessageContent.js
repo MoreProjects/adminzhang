@@ -20,11 +20,11 @@ const LecturerMessageContent = React.createClass({
         ajax.messageList({
             params: {
                 page: 1,
-                page_size: 20,
+                page_size: 10,
                 is_read: false
             }
         }, (responseData) => {
-            if (responseData) {
+            if (responseData && responseData.list) {
                 _self.setState({
                     allUnreadMessageList: responseData.list
                 });
@@ -41,11 +41,32 @@ const LecturerMessageContent = React.createClass({
         ajax.messageList({
             params: {
                 page: 1,
-                page_size: 20,
+                page_size: 10,
                 is_read: true
             }
         }, (responseData) => {
-            if (responseData) {
+            if (responseData && responseData.list) {
+                 _self.setState({
+                    allReadMessageList: responseData.list
+                });
+            }
+        });
+    },
+
+    /**
+     * 获取消息正文内容
+     * 
+     * @param 
+     * @returns
+     */
+    getMessageContent (messageId) {
+        const _self = this;
+
+        ajax.messageContent(messageId, {
+            params: {
+            }
+        }, (responseData) => {
+            if (responseData && responseData.list) {
                  _self.setState({
                     allReadMessageList: responseData.list
                 });
@@ -57,14 +78,31 @@ const LecturerMessageContent = React.createClass({
      * 收起 消息正文内容
      */
     togglerHide (event) {
+        let parent = event.target.parentNode && event.target.parentNode.parentNode;
 
+        if (!parent) {
+            return;
+        }
+
+        parent.classList.remove('showcontent');
     },
 
     /**
      * 展开 消息正文内容
      */
     togglerShow (event) {
-        
+        let parent = event.target.parentNode && event.target.parentNode.parentNode;
+
+        if (!parent) {
+            return;
+        }
+
+        parent.classList.add('showcontent');
+
+        let messageId = event.target.getAttribute('data-mid') || '';
+        if (messageId) {
+            this.getMessageContent(messageId);
+        }
     },
 
     /**
@@ -76,6 +114,8 @@ const LecturerMessageContent = React.createClass({
 
         this.refs.unread.classList.add('active');
         this.refs.unread_content.classList.add('active');
+
+        this.getUnreadMessageList();
     },
 
     /**
@@ -87,6 +127,8 @@ const LecturerMessageContent = React.createClass({
 
         this.refs.unread.classList.remove('active');
         this.refs.unread_content.classList.remove('active');
+
+        this.getReadMessageList();
     },
 
     /**
@@ -100,19 +142,20 @@ const LecturerMessageContent = React.createClass({
             return (
                 <div className="media media-sm note note-success" key={'l-messagecontent-' + index} >
                     <h3 className="m-t-10"><i className="fa fa-cog"></i> {item.title}</h3>
-                    <p className="l-messagecontent-desc">
+                    <p className="l-messagecontent-desc" ref="">
                         {item.title}
                     </p>
                     <p className="text-right m-b-0">
-                        <a href="javascript:;" className="btn btn-white m-r-5" onClick={this.togglerShow} >展开</a>
-                        <a href="javascript:;" className="btn btn-primary" onClick={this.togglerHide} >收起</a>
+                        <a href="javascript:;" className="btn btn-white m-r-5" data-mid={item.id}  onClick={this.togglerShow} >展开</a>
+                        <a href="javascript:;" className="btn btn-primary"  onClick={this.togglerHide} >收起</a>
                     </p>
                 </div>
             );
         });
 
         if (!messageListEle || messageListEle.length === 0) {
-            messageListEle = [].push(
+            messageListEle = [];
+            messageListEle.push(
                 <p>暂时没有消息</p>
             );
         }

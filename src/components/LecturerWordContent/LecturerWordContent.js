@@ -22,7 +22,7 @@ const LecturerWordContent = React.createClass({
         ajax.textLiveList('ctr34475696', {
             params: {}
         }, (responseData) => {
-            if (responseData) {
+            if (responseData && responseData.list) {
                 _self.setState({
                     textLiveList: responseData.list
                 });
@@ -35,10 +35,15 @@ const LecturerWordContent = React.createClass({
       */
     sendNewWord () {
         const _self = this;
+        let word = this.refs.wordContentNewWord.value || '';
+
+        if (!word) {
+            return;
+        }
 
         ajax.postText('ctr34475696', {
             params: {
-                content: this.refs.wordContentNewWord.value
+                content: word
             }
         }, (responseData) => {
             if (responseData) {
@@ -55,12 +60,11 @@ const LecturerWordContent = React.createClass({
      */
     renderTextLiveList () {
         let textLiveListEle = this.state.textLiveList && this.state.textLiveList.map((item, index) => {
-            let ctime = moment(item.create_time).format('HH:mm');
+            let ctime = moment(item.create_time).format('YYYY-MM-DD HH:mm');
             return (
                 <div className="alert alert-success" key={'l-wordcontent-' + index}>
                     <div className="invoice-company text-inverse">
-                        <span className="pull-right hidden-print">
-                        </span>
+                        <span className="pull-right hidden-print"></span>
                         <div>{ctime} <a href="javascript:;" target="_blank" className="pull-right l-wordcontent-file" >{item.content}</a></div>
                     </div>
                 </div>
@@ -68,8 +72,9 @@ const LecturerWordContent = React.createClass({
         });
 
         if (!textLiveListEle || textLiveListEle.length === 0) {
-            textLiveListEle = [].push(
-                <p>暂时没有数据</p>
+            textLiveListEle = [];
+            textLiveListEle.push(
+                <p>暂时没有文字直播</p>
             );
         }
 

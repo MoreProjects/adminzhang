@@ -24,7 +24,7 @@ const LecturerFollowerContent = React.createClass({
                 status: status
             }
         }, (responseData) => {
-            if (responseData) {
+            if (responseData && responseData.list) {
                 if (status === 1) {
                     _self.setState({
                         allReqFollowerList: responseData.list
@@ -113,7 +113,7 @@ const LecturerFollowerContent = React.createClass({
                     <div className="invoice-company text-inverse">
                         <span className="pull-right hidden-print">
                             <a href="javascript:;" onClick={this.refuseReqFollower} data-fid={item.id} className="btn btn-white btn-sm m-r-10 p-l-20 p-r-20"> 拒绝 </a>
-                            <a href="javascript:;" onClick={this.acceptReqFollower} data-fid={item.id} className="btn btn-primary btn-sm btn-primary p-l-20 p-r-20"> 同意 </a>
+                            <a href="javascript:;" onClick={this.acceptReqFollower} data-fid={item.id} className="btn btn-primary btn-sm p-l-20 p-r-20"> 同意 </a>
                         </span>
                         我是{item.name}，请求拜你为师
                     </div>
@@ -121,13 +121,20 @@ const LecturerFollowerContent = React.createClass({
             );
         });
 
-        reqFollowerListEle = reqFollowerListEle || (
-            <div className="alert alert-success invoice">
-                <div className="invoice-company text-inverse">
-                    暂时没有拜师请求
+        if (!reqFollowerListEle || reqFollowerListEle.length === 0) {
+            reqFollowerListEle = [];
+            reqFollowerListEle.push(
+                <div className="alert alert-success invoice">
+                    <div className="invoice-company text-inverse">
+                        暂时没有拜师请求
+                    </div>
                 </div>
-            </div>
-        );
+            );
+        }
+
+        if (reqFollowerListEle.length > 1) {
+            reqFollowerListEle = reqFollowerListEle.reverse();
+        }
 
         return reqFollowerListEle;
     },
@@ -153,13 +160,18 @@ const LecturerFollowerContent = React.createClass({
             );
         });
 
-        followerListEle = followerListEle || (
-            <div className="alert alert-success invoice">
-                <div className="invoice-company text-inverse">
+        if (!followerListEle || followerListEle.length === 0) {
+            followerListEle = [];
+            followerListEle.push(
+                <div className="media media-sm note note-success">
                     暂时没有徒弟，现在就去收徒弟
                 </div>
-            </div>
-        );
+            );
+        }
+
+        if (followerListEle.length > 1) {
+            followerListEle = followerListEle.reverse();
+        }
 
         return followerListEle;
     },
