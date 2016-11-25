@@ -38,7 +38,6 @@ var envArg = args.find(function(arg) {
 });
 
 const ENV = (envArg && envArg.split('=')[1]) || 'www';
-const APP = 'salary';
 const BUILD = 'build';
 const PUBLICPATH = (ENV ==="empty" ? '' : '');
 

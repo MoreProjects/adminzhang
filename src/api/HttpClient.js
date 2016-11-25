@@ -6,6 +6,9 @@ import noCache from 'superagent-no-cache';
 //cookie.save('cid', 'VW5rbm93bl8w');
 //cookie.save('sid', 'MTA2NDc1NDA5OCBmZTc1ZDRiN2E1NjQ0MTM2OGIyOWY4YmU3MzVkZWI2NTRmNmM3OGViMTdjNDQ4NGI4OWI4MGMyZDZkNzQ0Njgy');
 
+const Authorization = 'MTA2NDc1NDE2NyAzZjQ5YTJlNGRhMGQ0OTA5YWE4YTMzMmZlNDcyZjFlYjhlZTY1MDYzMDI2ZTQ1NjlhYTk4YWI2NTQxMzAyZDg0';
+const czdClient = 'Android_10647541611610';
+
 const HttpClient = {
 
     get: (path, requestConfig) => new Promise((resolve, reject) => {
@@ -14,8 +17,8 @@ const HttpClient = {
             .use(noCache)
             .withCredentials()
             .query(requestConfig)
-            .set('Authorization', 'MTA2NDc1NDE2OSBlMjdjZTI4YWU3NmQ0ZjY2YTYyMjdkNjk0MWY4OWEwMjJhODAyZTEyM2QxODRjNTFhYWQ4MDc4ODYyYTA4ZWU5')
-            .set('CZD-Client', 'Android_10647541611610')
+            .set('Authorization', Authorization)
+            .set('CZD-Client', czdClient)
             .accept('application/json')
             .end((err, res) => {
                 if (err) {
@@ -36,8 +39,8 @@ const HttpClient = {
             .use(noCache)
             .withCredentials()
             .send(requestConfig)
-            .set('Authorization', 'MTA2NDc1NDE2OSBlMjdjZTI4YWU3NmQ0ZjY2YTYyMjdkNjk0MWY4OWEwMjJhODAyZTEyM2QxODRjNTFhYWQ4MDc4ODYyYTA4ZWU5')
-            .set('CZD-Client', 'Android_10647541611610')
+            .set('Authorization', Authorization)
+            .set('CZD-Client', czdClient)
             .accept('application/json')
             .end((err, res) => {
                 if (err) {
@@ -53,7 +56,7 @@ const HttpClient = {
     }),
 
     postWithFile: (file, form, path, requestConfig) => new Promise((resolve, reject) => {
-        let r = 
+        let r =
 
         request
             .post(path)
@@ -66,8 +69,8 @@ const HttpClient = {
 
         r
             .attach(file.name, file.value, file.filename)
-            .set('Authorization', 'MTA2NDc1NDE2OSBlMjdjZTI4YWU3NmQ0ZjY2YTYyMjdkNjk0MWY4OWEwMjJhODAyZTEyM2QxODRjNTFhYWQ4MDc4ODYyYTA4ZWU5')
-            .set('CZD-Client', 'Android_10647541611610')
+            .set('Authorization', Authorization)
+            .set('CZD-Client', czdClient)
             .accept('application/json')
             .end((err, res) => {
                 if (err) {
@@ -87,8 +90,8 @@ const HttpClient = {
             .del(path)
             .use(noCache)
             .withCredentials()
-            .set('Authorization', 'MTA2NDc1NDE2OSBlMjdjZTI4YWU3NmQ0ZjY2YTYyMjdkNjk0MWY4OWEwMjJhODAyZTEyM2QxODRjNTFhYWQ4MDc4ODYyYTA4ZWU5')
-            .set('CZD-Client', 'Android_10647541611610')
+            .set('Authorization', Authorization)
+            .set('CZD-Client', czdClient)
             .accept('application/json')
             .end((err, res) => {
                 if (err) {
